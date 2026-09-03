@@ -8,16 +8,20 @@
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/app-icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/app-icon-180.png" />
-    <link rel="stylesheet" href="../style.css?v=20260903-3" />
+    <link rel="stylesheet" href="../style.css?v=20260903-4" />
+    <script src="../js/analytics.js?v=20260903-2" defer></script>
   </head>
   <body class="legal-page">
     <main class="legal-shell">
       <a class="legal-back" href="../">‹ 國護りへ戻る</a>
-      <header class="legal-header">
+      <header class="legal-header" id="privacy-header-ja">
         <p class="eyebrow"><span></span> PRIVACY POLICY <span></span></p>
         <h1>國護り ― 四十八の神託 ― プライバシーポリシー</h1>
       </header>
-      <article class="legal-panel">
+      <header class="legal-header" id="privacy-header-en" lang="en" hidden>
+        <h1>PRIVACY POLICY</h1>
+      </header>
+      <article class="legal-panel" id="privacy-content-ja">
         <p>「國護り ― 四十八の神託 ―」では、利用者のプライバシーを尊重し、情報を適切に取り扱います。</p>
 
         <h2>1. 個人情報について</h2>
@@ -28,8 +32,9 @@
         <p>これらの情報が運営者へ自動送信されることはありません。</p>
 
         <h2>3. アクセス情報について</h2>
-        <p>今後、利用状況の把握やサービス改善のため、アクセス解析サービス等を導入する場合があります。</p>
-        <p>その場合は、利用するサービス名や取得情報について本ページに追記します。</p>
+        <p>本サービスでは、利用状況の把握とサービス改善のため、Google LLCが提供するGoogle Analytics 4を利用しています。</p>
+        <p>Google Analyticsでは、閲覧ページ、利用端末、ブラウザ、セッション、利用地域などの情報が収集される場合があります。</p>
+        <p>氏名、メールアドレス、カード履歴、選択したカード、質問内容など、個人を直接特定する情報を本サービスからGoogle Analyticsへ送信することはありません。</p>
 
         <h2>4. Cookie等について</h2>
         <p>本サービスは、機能維持や表示設定保存のため、ブラウザの保存機能を利用する場合があります。</p>
@@ -41,6 +46,31 @@
         <h2>6. プライバシーポリシーの変更</h2>
         <p>本ポリシーは、機能追加や法令変更等に応じて改定する場合があります。</p>
       </article>
+      <article class="legal-panel" id="privacy-content-en" lang="en" hidden>
+        <p>“Kunimamori — Forty-Eight Divine Messages” respects users’ privacy and handles information appropriately.</p>
+
+        <h2>1. Personal Information</h2>
+        <p>At present, the Service does not collect personal information such as names, addresses, telephone numbers, or email addresses when users access its card-reading features.</p>
+
+        <h2>2. Reading History Data</h2>
+        <p>Card-reading history and settings saved within the Service are, in principle, stored locally on the user’s device.</p>
+        <p>This information is not automatically transmitted to the operator.</p>
+
+        <h2>3. Analytics Data</h2>
+        <p>The Service uses Google Analytics 4, provided by Google LLC, to understand usage and improve the Service.</p>
+        <p>Google Analytics may collect information such as pages viewed, device type, browser, session data, and approximate geographic region.</p>
+        <p>The Service does not send information that directly identifies an individual—such as a name, email address, card-reading history, selected cards, or the content of a question—to Google Analytics.</p>
+
+        <h2>4. Cookies and Similar Technologies</h2>
+        <p>The Service may use browser storage features to maintain functionality and save display preferences.</p>
+
+        <h2>5. External Services</h2>
+        <p>The Service is delivered using external services, including GitHub Pages.</p>
+        <p>Such external services may collect technical access information.</p>
+
+        <h2>6. Changes to This Privacy Policy</h2>
+        <p>This Policy may be revised in response to added functionality, changes in applicable laws or regulations, or other circumstances.</p>
+      </article>
     </main>
     <footer>
       <nav class="footer-links" aria-label="規約とポリシー">
@@ -48,5 +78,32 @@
       </nav>
       <p class="footer-copyright">© 2026 Serinato. All Rights Reserved.</p>
     </footer>
+    <script>
+      (function () {
+        "use strict";
+
+        var language = "ja";
+        try {
+          language = window.localStorage.getItem("kunimamori-language") === "en" ? "en" : "ja";
+        } catch (_) {
+          language = "ja";
+        }
+
+        if (language !== "en") return;
+
+        document.documentElement.lang = "en";
+        document.title = "Kunimamori — Forty-Eight Divine Messages — Privacy Policy";
+        document.getElementById("privacy-header-ja").hidden = true;
+        document.getElementById("privacy-content-ja").hidden = true;
+        document.getElementById("privacy-header-en").hidden = false;
+        document.getElementById("privacy-content-en").hidden = false;
+        document.querySelector(".legal-back").textContent = "‹ Back to Kunimamori";
+
+        var footerLabels = ["Terms of Use", "Privacy Policy", "Disclaimer", "Copyright and Content Use"];
+        document.querySelectorAll(".footer-links a").forEach(function (link, index) {
+          link.textContent = footerLabels[index];
+        });
+      })();
+    </script>
   </body>
 </html>

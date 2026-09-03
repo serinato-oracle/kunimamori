@@ -11,16 +11,23 @@
     const title = document.querySelector("#card-modal-title");
     const deity = document.querySelector("#card-modal-deity");
     let previousFocus;
+    let currentCard = null;
+
+    function render(card) {
+      const displayCard = app.i18n.translateCard(card);
+      image.src = card.image;
+      image.alt = app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`;
+      number.textContent = card.number ? `No.${card.number}` : "";
+      title.textContent = displayCard.name;
+      deity.textContent = displayCard.deity || "";
+    }
 
     function open(card) {
       if (!card) return;
 
       previousFocus = document.activeElement;
-      image.src = card.image;
-      image.alt = `${card.name}のカード画像`;
-      number.textContent = card.number ? `No.${card.number}` : "";
-      title.textContent = card.name;
-      deity.textContent = card.deity || "";
+      currentCard = card;
+      render(card);
       modal.hidden = false;
       document.body.classList.add("is-modal-open");
       window.requestAnimationFrame(() => modal.classList.add("is-open"));
@@ -42,6 +49,9 @@
     dialog.addEventListener("click", (event) => event.stopPropagation());
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !modal.hidden) close();
+    });
+    window.addEventListener("kunimamori:languagechange", () => {
+      if (currentCard && !modal.hidden) render(currentCard);
     });
 
     app.cardModal = { open, close };

@@ -35,6 +35,9 @@
 
     function formatDate(date) {
       const [year, month, day] = date.split("-").map(Number);
+      if (app.i18n.getLanguage() === "en") {
+        return new Date(year, month - 1, day).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      }
       return `${year}年${month}月${day}日`;
     }
 
@@ -45,6 +48,7 @@
     function createItem(entry) {
       const card = findCard(entry.cardNumber);
       if (!card) return null;
+      const displayCard = app.i18n.translateCard(card);
 
       const item = document.createElement("article");
       item.className = "history-item";
@@ -52,13 +56,13 @@
       const thumbnail = document.createElement("button");
       thumbnail.className = "history-thumbnail protected-image-area";
       thumbnail.type = "button";
-      thumbnail.setAttribute("aria-label", `${card.name}を拡大表示`);
-      thumbnail.innerHTML = `<img class="is-protected-image" src="${card.image}" alt="${card.name}のカード画像" draggable="false" />`;
+      thumbnail.setAttribute("aria-label", app.i18n.getLanguage() === "en" ? `Enlarge ${displayCard.name}` : `${displayCard.name}を拡大表示`);
+      thumbnail.innerHTML = `<img class="is-protected-image" src="${card.image}" alt="${app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`}" draggable="false" />`;
       thumbnail.addEventListener("click", () => app.cardModal.open(card));
 
       const details = document.createElement("div");
       details.className = "history-item__details";
-      details.innerHTML = `<time datetime="${entry.date}">${formatDate(entry.date)}</time><p><span>No.${card.number}</span>${card.name}</p><small>${card.deity || ""}</small>`;
+      details.innerHTML = `<time datetime="${entry.date}">${formatDate(entry.date)}</time><p><span>No.${card.number}</span>${displayCard.name}</p><small>${displayCard.deity || ""}</small>`;
 
       item.append(thumbnail, details);
       return item;
@@ -76,6 +80,7 @@
     }
 
     render();
+    window.addEventListener("kunimamori:languagechange", render);
     app.history = { addEntry, render, readEntries, storageKey: STORAGE_KEY, maxEntries: MAX_ENTRIES };
   }
 

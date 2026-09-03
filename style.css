@@ -1514,3 +1514,66 @@ footer { padding-bottom: calc(.6rem + env(safe-area-inset-bottom, 0)); opacity: 
   .shuffle-controls .return-button { font-size: .84rem; }
   .return-button { font-size: .8rem; }
 }
+
+/* 日本語 / English 切替 */
+.language-switcher {
+  position: fixed;
+  z-index: 1200;
+  top: max(.7rem, env(safe-area-inset-top));
+  right: max(.75rem, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  gap: .38rem;
+  padding: .35rem .55rem;
+  border: 1px solid rgba(214, 188, 119, .25);
+  border-radius: 999px;
+  background: rgba(5, 15, 32, .84);
+  color: rgba(242, 230, 197, .55);
+  font-size: .66rem;
+  letter-spacing: .02em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.language-switcher button {
+  min-width: 0;
+  padding: .22rem .12rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.language-switcher button.is-active {
+  color: #f1dca4;
+  text-decoration: underline;
+  text-decoration-color: rgba(241, 220, 164, .48);
+  text-underline-offset: .22rem;
+}
+
+.is-language-en {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.is-language-en .card__message,
+.is-language-en .three-card-message,
+.is-language-en .three-card-interpretation,
+.is-language-en .daily-message,
+.is-language-en .history-item__details,
+.is-language-en .selection-message,
+.is-language-en .draw-option__description,
+.is-language-en .guidance,
+.is-language-en .prompt {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
+@media (max-width: 680px) {
+  .language-switcher {
+    top: max(.45rem, env(safe-area-inset-top));
+    right: max(.5rem, env(safe-area-inset-right));
+    font-size: .61rem;
+  }
+}

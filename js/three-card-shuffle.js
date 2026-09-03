@@ -46,6 +46,39 @@
     let targetMode = "three";
     let targetCount = 3;
 
+    function isEnglish() {
+      return app.i18n.getLanguage() === "en";
+    }
+
+    function selectionLabel(order) {
+      if (!isEnglish()) return `${order}枚目`;
+      const suffix = order === 1 ? "st" : order === 2 ? "nd" : order === 3 ? "rd" : "th";
+      return `${order}${suffix}`;
+    }
+
+    function unselectedAriaLabel() {
+      return isEnglish()
+        ? "Face-down card. Double-tap to select."
+        : "裏向きのカード。ダブルタップして選択してください。";
+    }
+
+    function selectedAriaLabel(order) {
+      if (!isEnglish()) return `${order}枚目として選択済み`;
+      const ordinal = order === 1 ? "first" : order === 2 ? "second" : order === 3 ? "third" : String(order);
+      return `Selected as the ${ordinal} card.`;
+    }
+
+    function updateScatterAriaLabels() {
+      Array.from(scatterDeck.children).forEach((element) => {
+        const selected = element.classList.contains("is-selected");
+        const order = Number(element.dataset.selectionOrder || 0);
+        element.setAttribute("aria-label", selected ? selectedAriaLabel(order) : unselectedAriaLabel());
+        element.setAttribute("aria-pressed", String(selected));
+        const badge = element.querySelector(".scatter-card__badge");
+        if (selected && badge) badge.textContent = selectionLabel(order);
+      });
+    }
+
     function stopRiffleAnimations() {
       riffleAnimations.forEach((animation) => animation.cancel());
       riffleAnimations = [];
@@ -103,7 +136,7 @@
     }
 
     function updateProgress() {
-      progress.textContent = `選択 ${selectedCards.length} / ${targetCount}`;
+      progress.textContent = `${isEnglish() ? "Selected" : "選択"} ${selectedCards.length} / ${targetCount}`;
     }
 
     function placeScatteredCard(element, index, total) {
@@ -175,16 +208,22 @@
       selectedCards.push(card);
       const order = selectedCards.length;
       element.classList.add("is-selected");
-      element.setAttribute("aria-label", `${order}枚目として選択済み`);
+      element.dataset.selectionOrder = String(order);
+      element.setAttribute("aria-label", selectedAriaLabel(order));
+      element.setAttribute("aria-pressed", "true");
       const badge = document.createElement("span");
       badge.className = "scatter-card__badge";
-      badge.textContent = `${order}枚目`;
+      badge.textContent = selectionLabel(order);
       element.appendChild(badge);
       updateProgress();
 
       if (selectedCards.length === targetCount) {
         phase = "complete";
-        instruction.textContent = targetCount === 3 ? "三枚の神託を開きます" : "選んだ神託を開きます";
+        if (targetMode === "one") app.analytics.track("single_draw_complete");
+        if (targetMode === "three") app.analytics.track("three_draw_complete");
+        instruction.textContent = isEnglish()
+          ? targetCount === 3 ? "Revealing the three oracles" : "Revealing your oracle"
+          : targetCount === 3 ? "三枚の神託を開きます" : "選んだ神託を開きます";
         const selectedForReading = [...selectedCards];
         const completedMode = targetMode;
         const activeRun = runId;
@@ -277,6 +316,8 @@
 
     function scatterCards() {
       if (phase !== "riffle") return;
+      app.analytics.track("riffle_complete");
+      app.analytics.track("spread_start");
       stopRiffleAnimations();
       phase = "scatter";
       table.classList.remove("is-riffling");
@@ -286,16 +327,20 @@
       swipeGuide.hidden = true;
       finishButton.hidden = true;
       scatterDeck.hidden = false;
-      instruction.textContent = `カードを自由に混ぜて、ダブルタップで${targetCount}枚選んでください`;
+      instruction.textContent = isEnglish()
+        ? `Mix the cards freely, then double-tap to choose ${targetCount}.`
+        : `カードを自由に混ぜて、ダブルタップで${targetCount}枚選んでください`;
       scatterDeck.replaceChildren();
 
       const deck = shuffledCards(app.cards);
       deck.forEach((card, index) => {
         const element = makeBack("scatter-card");
         element.dataset.cardNumber = card.number;
+        element.setAttribute("data-i18n-dynamic-attributes", "true");
         element.style.zIndex = String(index + 1);
         element.setAttribute("role", "button");
-        element.setAttribute("aria-label", "裏向きのカード。ダブルタップで選択");
+        element.setAttribute("aria-label", unselectedAriaLabel());
+        element.setAttribute("aria-pressed", "false");
         scatterDeck.appendChild(element);
         bindCardInteraction(element, card);
       });
@@ -309,6 +354,7 @@
     }
 
     function start(options = {}) {
+      app.analytics.track("shuffle_start");
       runId += 1;
       stopRiffleAnimations();
       phase = "riffle";
@@ -318,7 +364,9 @@
       targetMode = options.mode || targetMode || "three";
       if (Number(options.count) === 1) targetCount = 1;
       if (Number(options.count) === 3) targetCount = 3;
-      title.textContent = targetCount === 3 ? "三枚の神託を選ぶ" : targetMode === "daily" ? "今日の神託を選ぶ" : "一枚の神託を選ぶ";
+      title.textContent = isEnglish()
+        ? targetCount === 3 ? "Choose Three Oracles" : targetMode === "daily" ? "Choose Today's Oracle" : "Choose One Oracle"
+        : targetCount === 3 ? "三枚の神託を選ぶ" : targetMode === "daily" ? "今日の神託を選ぶ" : "一枚の神託を選ぶ";
       buildRiffleDecks();
       scatterDeck.replaceChildren();
       scatterDeck.hidden = true;
@@ -328,7 +376,7 @@
       finishButton.hidden = false;
       table.classList.remove("is-scattered");
       table.classList.add("is-riffling");
-      instruction.textContent = "カードをシャッフルしています";
+      instruction.textContent = isEnglish() ? "Shuffling the cards" : "カードをシャッフルしています";
       updateProgress();
     }
 
@@ -351,6 +399,21 @@
     });
     finishButton.addEventListener("click", scatterCards);
     restartButton.addEventListener("click", start);
+    window.addEventListener("kunimamori:languagechange", () => {
+      updateProgress();
+      updateScatterAriaLabels();
+      if (phase === "riffle") {
+        title.textContent = isEnglish()
+          ? targetCount === 3 ? "Choose Three Oracles" : targetMode === "daily" ? "Choose Today's Oracle" : "Choose One Oracle"
+          : targetCount === 3 ? "三枚の神託を選ぶ" : targetMode === "daily" ? "今日の神託を選ぶ" : "一枚の神託を選ぶ";
+        instruction.textContent = isEnglish() ? "Shuffling the cards" : "カードをシャッフルしています";
+      }
+      if (phase === "scatter") {
+        instruction.textContent = isEnglish()
+          ? `Mix the cards freely, then double-tap to choose ${targetCount}.`
+          : `カードを自由に混ぜて、ダブルタップで${targetCount}枚選んでください`;
+      }
+    });
 
     app.threeCardShuffle = { start, finishRiffle: scatterCards };
   }

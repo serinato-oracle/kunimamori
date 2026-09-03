@@ -8,16 +8,20 @@
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/app-icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/app-icon-180.png" />
-    <link rel="stylesheet" href="../style.css?v=20260903-3" />
+    <link rel="stylesheet" href="../style.css?v=20260903-4" />
+    <script src="../js/analytics.js?v=20260903-2" defer></script>
   </head>
   <body class="legal-page">
     <main class="legal-shell">
       <a class="legal-back" href="../">‹ 國護りへ戻る</a>
-      <header class="legal-header">
+      <header class="legal-header" id="terms-header-ja">
         <p class="eyebrow"><span></span> TERMS OF USE <span></span></p>
         <h1>國護り ― 四十八の神託 ― 利用規約</h1>
       </header>
-      <article class="legal-panel">
+      <header class="legal-header" id="terms-header-en" lang="en" hidden>
+        <h1>TERMS OF USE</h1>
+      </header>
+      <article class="legal-panel" id="terms-content-ja">
         <p>本利用規約は、「國護り ― 四十八の神託 ―」Webアプリ（以下「本サービス」）の利用条件を定めるものです。</p>
         <p>本サービスをご利用いただいた時点で、本規約に同意したものとみなします。</p>
 
@@ -51,6 +55,40 @@
         <p>本規約は、必要に応じて内容を変更する場合があります。</p>
         <p>変更後の規約は、本サービス上に掲載した時点から適用されます。</p>
       </article>
+      <article class="legal-panel" id="terms-content-en" lang="en" hidden>
+        <p>These Terms of Use set forth the conditions governing the use of the “Kunimamori — Forty-Eight Divine Messages” web application (the “Service”).</p>
+        <p>By using the Service, you are deemed to have agreed to these Terms.</p>
+
+        <h2>Article 1 — Description of the Service</h2>
+        <p>The Service is a web application that allows users to enjoy card readings using original cards inspired by Japanese deities and Buddhist figures.</p>
+        <p>The cards and messages displayed by the Service are provided as reference information intended to support self-understanding, personal insight, and reflection on daily life.</p>
+
+        <h2>Article 2 — Use of the Service</h2>
+        <p>The Service may be used for personal purposes.</p>
+        <p>No special registration is required to use the Service.</p>
+
+        <h2>Article 3 — Prohibited Conduct</h2>
+        <p>The following conduct is prohibited:</p>
+        <ul>
+          <li>Reproducing, copying, or redistributing any images, text, designs, or other materials from the Service without permission</li>
+          <li>Commercializing, reselling, or distributing the content of the Service in substantially unchanged form</li>
+          <li>Engaging in unauthorized access, alteration, analysis, or any other conduct that interferes with the operation of the Service</li>
+          <li>Using the Service for any purpose that violates applicable laws, regulations, or public order and morality</li>
+          <li>Infringing upon the rights or interests of others</li>
+        </ul>
+
+        <h2>Article 4 — Changes to or Suspension of the Service</h2>
+        <p>The content of the Service may be changed, supplemented, revised, or withdrawn from public access without prior notice.</p>
+        <p>The Service may also become temporarily unavailable due to maintenance, system failure, suspension of an external service, or other circumstances.</p>
+
+        <h2>Article 5 — Disclaimer</h2>
+        <p>The operator assumes no responsibility for any decisions, actions, or outcomes arising from the use of the Service.</p>
+        <p>The Service does not provide medical, legal, investment, psychotherapeutic, or other professional advice.</p>
+
+        <h2>Article 6 — Changes to These Terms</h2>
+        <p>These Terms may be amended as necessary.</p>
+        <p>Any amended Terms will take effect when they are posted on the Service.</p>
+      </article>
     </main>
     <footer>
       <nav class="footer-links" aria-label="規約とポリシー">
@@ -58,5 +96,32 @@
       </nav>
       <p class="footer-copyright">© 2026 Serinato. All Rights Reserved.</p>
     </footer>
+    <script>
+      (function () {
+        "use strict";
+
+        var language = "ja";
+        try {
+          language = window.localStorage.getItem("kunimamori-language") === "en" ? "en" : "ja";
+        } catch (_) {
+          language = "ja";
+        }
+
+        if (language !== "en") return;
+
+        document.documentElement.lang = "en";
+        document.title = "Kunimamori — Forty-Eight Divine Messages — Terms of Use";
+        document.getElementById("terms-header-ja").hidden = true;
+        document.getElementById("terms-content-ja").hidden = true;
+        document.getElementById("terms-header-en").hidden = false;
+        document.getElementById("terms-content-en").hidden = false;
+        document.querySelector(".legal-back").textContent = "‹ Back to Kunimamori";
+
+        var footerLabels = ["Terms of Use", "Privacy Policy", "Disclaimer", "Copyright and Content Use"];
+        document.querySelectorAll(".footer-links a").forEach(function (link, index) {
+          link.textContent = footerLabels[index];
+        });
+      })();
+    </script>
   </body>
 </html>

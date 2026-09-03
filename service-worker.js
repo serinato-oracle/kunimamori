@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "kunimamori-pwa-20260903-3";
+const CACHE_NAME = "kunimamori-pwa-20260903-13";
 
 const CARD_IMAGES = Array.from({ length: 48 }, function (_, index) {
   return "./images/web/kuni-" + String(index + 1).padStart(2, "0") + ".jpg";
@@ -10,7 +10,9 @@ const APP_ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./style.css?v=20260903-3",
+  "./manifest-en.webmanifest",
+  "./style.css?v=20260903-4",
+  "./style.css?v=20260903-5",
   "./terms/",
   "./privacy/",
   "./disclaimer/",
@@ -28,16 +30,19 @@ const APP_ASSETS = [
   "./images/icons/app-icon-1024.png",
   "./images/web/card-back.jpg",
   "./js/card-data.js",
+  "./js/translations-en.js?v=20260903-4",
+  "./js/i18n.js?v=20260903-6",
+  "./js/analytics.js?v=20260903-3",
   "./js/special-effects.js",
   "./js/shuffle-effects.js",
-  "./js/card-modal.js",
-  "./js/three-card-shuffle.js?v=20260831-11",
-  "./js/navigation.js?v=20260831-15",
-  "./js/one-card.js?v=20260831-17",
-  "./js/three-card-reading-engine.js",
-  "./js/three-card.js?v=20260831-17",
-  "./js/daily-oracle.js?v=20260831-17",
-  "./js/history.js",
+  "./js/card-modal.js?v=20260903-1",
+  "./js/three-card-shuffle.js?v=20260903-15",
+  "./js/navigation.js?v=20260903-16",
+  "./js/one-card.js?v=20260903-18",
+  "./js/three-card-reading-engine.js?v=20260903-1",
+  "./js/three-card.js?v=20260903-19",
+  "./js/daily-oracle.js?v=20260903-18",
+  "./js/history.js?v=20260903-1",
   "./js/image-protection.js",
   "./js/app.js?v=20260831-10",
   "./js/launch-screen.js?v=20260831-16",

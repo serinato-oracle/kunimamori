@@ -35,14 +35,17 @@
     }
 
     document.querySelector("#choose-one").addEventListener("click", () => {
+      app.analytics.track("single_draw_start");
       showView(views.threeCardShuffle);
       app.threeCardShuffle.start({ mode: "one", count: 1 });
     });
     document.querySelector("#choose-three").addEventListener("click", () => {
+      app.analytics.track("three_draw_start");
       showView(views.threeCardShuffle);
       app.threeCardShuffle.start({ mode: "three", count: 3 });
     });
     document.querySelector("#choose-daily").addEventListener("click", () => {
+      app.analytics.track("daily_draw");
       if (app.dailyOracle) app.dailyOracle.refresh();
       if (app.dailyOracle && app.dailyOracle.hasToday()) {
         showView(views.daily);
@@ -52,6 +55,7 @@
       }
     });
     document.querySelector("#choose-history").addEventListener("click", () => {
+      app.analytics.track("history_view");
       if (app.history) app.history.render();
       showView(views.history);
     });

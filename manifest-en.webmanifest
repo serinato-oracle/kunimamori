@@ -1,0 +1,21 @@
+{
+  "name": "國護り ― 四十八の神託 ―",
+  "short_name": "國護り",
+  "id": "./",
+  "description": "四十八枚の神託カードから、今のあなたへ届く言葉を受け取るオラクルカードアプリ",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#061226",
+  "theme_color": "#061226",
+  "categories": ["lifestyle", "entertainment"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "images/icons/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "images/icons/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "images/icons/app-icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}

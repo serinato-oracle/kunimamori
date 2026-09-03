@@ -8,16 +8,20 @@
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/app-icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/app-icon-180.png" />
-    <link rel="stylesheet" href="../style.css?v=20260903-3" />
+    <link rel="stylesheet" href="../style.css?v=20260903-4" />
+    <script src="../js/analytics.js?v=20260903-2" defer></script>
   </head>
   <body class="legal-page">
     <main class="legal-shell">
       <a class="legal-back" href="../">‹ 國護りへ戻る</a>
-      <header class="legal-header">
+      <header class="legal-header" id="disclaimer-header-ja">
         <p class="eyebrow"><span></span> DISCLAIMER <span></span></p>
         <h1>國護り ― 四十八の神託 ― 免責事項</h1>
       </header>
-      <article class="legal-panel">
+      <header class="legal-header" id="disclaimer-header-en" lang="en" hidden>
+        <h1>DISCLAIMER</h1>
+      </header>
+      <article class="legal-panel" id="disclaimer-content-ja">
         <p>本サービスで表示されるカードやメッセージは、未来、出来事、結果を保証するものではありません。</p>
         <p>カードリーディングは、自己理解、気づき、内省、日々の選択を考えるための参考情報としてご利用ください。</p>
         <p>本サービスの結果のみを根拠として、重要な判断を行うことはお控えください。</p>
@@ -32,6 +36,21 @@
         <p>本サービスを利用したこと、または利用できなかったことによって生じた損害、損失、トラブル等について、運営者は責任を負いません。</p>
         <p>また、通信環境、端末、ブラウザ、外部サービス等の影響により、正常に利用できない場合があります。</p>
       </article>
+      <article class="legal-panel" id="disclaimer-content-en" lang="en" hidden>
+        <p>The cards and messages displayed by the Service do not guarantee any future event, occurrence, or outcome.</p>
+        <p>Card readings should be used as reference information for self-understanding, personal insight, reflection, and consideration of everyday choices.</p>
+        <p>Please do not make important decisions based solely on the results provided by the Service.</p>
+        <p>In particular, always consult an appropriately qualified professional or relevant public authority regarding the following matters:</p>
+        <ul>
+          <li>Medical or health-related decisions</li>
+          <li>Legal decisions</li>
+          <li>Investment or financial decisions</li>
+          <li>Decisions concerning psychological or mental-health treatment</li>
+          <li>Any other matter requiring professional judgment</li>
+        </ul>
+        <p>The operator assumes no responsibility for any damage, loss, dispute, or other issue arising from the use of, or inability to use, the Service.</p>
+        <p>The Service may not function properly due to the user’s communications environment, device, browser, external services, or other factors.</p>
+      </article>
     </main>
     <footer>
       <nav class="footer-links" aria-label="規約とポリシー">
@@ -39,5 +58,32 @@
       </nav>
       <p class="footer-copyright">© 2026 Serinato. All Rights Reserved.</p>
     </footer>
+    <script>
+      (function () {
+        "use strict";
+
+        var language = "ja";
+        try {
+          language = window.localStorage.getItem("kunimamori-language") === "en" ? "en" : "ja";
+        } catch (_) {
+          language = "ja";
+        }
+
+        if (language !== "en") return;
+
+        document.documentElement.lang = "en";
+        document.title = "Kunimamori — Forty-Eight Divine Messages — Disclaimer";
+        document.getElementById("disclaimer-header-ja").hidden = true;
+        document.getElementById("disclaimer-content-ja").hidden = true;
+        document.getElementById("disclaimer-header-en").hidden = false;
+        document.getElementById("disclaimer-content-en").hidden = false;
+        document.querySelector(".legal-back").textContent = "‹ Back to Kunimamori";
+
+        var footerLabels = ["Terms of Use", "Privacy Policy", "Disclaimer", "Copyright and Content Use"];
+        document.querySelectorAll(".footer-links a").forEach(function (link, index) {
+          link.textContent = footerLabels[index];
+        });
+      })();
+    </script>
   </body>
 </html>

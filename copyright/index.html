@@ -8,16 +8,20 @@
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/app-icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/app-icon-180.png" />
-    <link rel="stylesheet" href="../style.css?v=20260903-3" />
+    <link rel="stylesheet" href="../style.css?v=20260903-4" />
+    <script src="../js/analytics.js?v=20260903-2" defer></script>
   </head>
   <body class="legal-page">
     <main class="legal-shell">
       <a class="legal-back" href="../">‹ 國護りへ戻る</a>
-      <header class="legal-header">
+      <header class="legal-header" id="copyright-header-ja">
         <p class="eyebrow"><span></span> COPYRIGHT <span></span></p>
         <h1>國護り ― 四十八の神託 ― 著作権・コンテンツ利用について</h1>
       </header>
-      <article class="legal-panel">
+      <header class="legal-header" id="copyright-header-en" lang="en" hidden>
+        <h1>COPYRIGHT</h1>
+      </header>
+      <article class="legal-panel" id="copyright-content-ja">
         <p>本サービスに掲載されている以下のコンテンツは、運営者または正当な権利者に帰属します。</p>
         <ul>
           <li>カード画像</li>
@@ -49,6 +53,38 @@
         <p>ただし、カード画像や文章を大量に転載したり、本サービスそのものを再現できる形で公開したりすることは禁止します。</p>
         <p>可能な場合は、「國護り ― 四十八の神託 ―」の名称が分かる形でご紹介ください。</p>
       </article>
+      <article class="legal-panel" id="copyright-content-en" lang="en" hidden>
+        <p>The following content published through the Service belongs to the operator or the respective lawful rights holder:</p>
+        <ul>
+          <li>Card images</li>
+          <li>Card names</li>
+          <li>Oracle texts</li>
+          <li>Action guidance</li>
+          <li>Messages</li>
+          <li>User-interface design</li>
+          <li>Logos</li>
+          <li>Written content</li>
+          <li>Other original expressions and arrangements used in the Service</li>
+        </ul>
+
+        <p>The following unauthorized uses of this content are prohibited:</p>
+        <ul>
+          <li>Republishing</li>
+          <li>Reproduction</li>
+          <li>Redistribution</li>
+          <li>Sale</li>
+          <li>Commercialization after modification</li>
+          <li>Collection or use as training data for artificial intelligence</li>
+          <li>Reuse in other divination services or card products</li>
+          <li>Large-scale publication on social media, websites, videos, or other media</li>
+        </ul>
+
+        <h2>Screenshots</h2>
+        <p>Individuals may save screenshots of card-reading results for the purpose of enjoying the Service personally.</p>
+        <p>Card-reading results may also be shared on an individual’s social-media account or similar channel within reasonable limits.</p>
+        <p>However, users may not reproduce large quantities of card images or text, or publish them in a form that enables the Service itself to be recreated.</p>
+        <p>Where possible, please identify the Service by the name “Kunimamori — Forty-Eight Divine Messages” when sharing it.</p>
+      </article>
     </main>
     <footer>
       <nav class="footer-links" aria-label="規約とポリシー">
@@ -56,5 +92,32 @@
       </nav>
       <p class="footer-copyright">© 2026 Serinato. All Rights Reserved.</p>
     </footer>
+    <script>
+      (function () {
+        "use strict";
+
+        var language = "ja";
+        try {
+          language = window.localStorage.getItem("kunimamori-language") === "en" ? "en" : "ja";
+        } catch (_) {
+          language = "ja";
+        }
+
+        if (language !== "en") return;
+
+        document.documentElement.lang = "en";
+        document.title = "Kunimamori — Forty-Eight Divine Messages — Copyright and Content Use";
+        document.getElementById("copyright-header-ja").hidden = true;
+        document.getElementById("copyright-content-ja").hidden = true;
+        document.getElementById("copyright-header-en").hidden = false;
+        document.getElementById("copyright-content-en").hidden = false;
+        document.querySelector(".legal-back").textContent = "‹ Back to Kunimamori";
+
+        var footerLabels = ["Terms of Use", "Privacy Policy", "Disclaimer", "Copyright and Content Use"];
+        document.querySelectorAll(".footer-links a").forEach(function (link, index) {
+          link.textContent = footerLabels[index];
+        });
+      })();
+    </script>
   </body>
 </html>

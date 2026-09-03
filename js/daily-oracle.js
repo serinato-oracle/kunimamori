@@ -27,6 +27,9 @@
 
     function formatDate(date) {
       const [year, month, day] = date.split("-").map(Number);
+      if (app.i18n.getLanguage() === "en") {
+        return new Date(year, month - 1, day).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      }
       return `${year}年${month}月${day}日`;
     }
 
@@ -53,12 +56,13 @@
 
     function updateCard(card) {
       currentCard = card;
+      const displayCard = app.i18n.translateCard(card);
       image.src = card.image;
-      image.alt = `${card.name}のカード画像`;
+      image.alt = app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`;
       number.textContent = card.number;
-      name.textContent = card.name;
-      deity.textContent = card.deity || "";
-      message.textContent = card.message;
+      name.textContent = displayCard.name;
+      deity.textContent = displayCard.deity || "";
+      message.textContent = displayCard.message;
     }
 
     async function prepareCardImage() {
@@ -160,6 +164,7 @@
     });
 
     refresh();
+    window.addEventListener("kunimamori:languagechange", refresh);
     app.dailyOracle = { refresh, hasToday, revealSelectedCard, storageKey: STORAGE_KEY, getLocalDateKey };
   }
 

@@ -32,12 +32,13 @@
     }
 
     function updateCard(card) {
+      const displayCard = app.i18n.translateCard(card);
       elements.image.src = card.image;
-      elements.image.alt = `${card.name}のカード画像`;
-      elements.name.textContent = card.name;
-      elements.deity.textContent = card.deity || "";
-      elements.deity.hidden = !card.deity;
-      elements.message.textContent = card.message;
+      elements.image.alt = app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`;
+      elements.name.textContent = displayCard.name;
+      elements.deity.textContent = displayCard.deity || "";
+      elements.deity.hidden = !displayCard.deity;
+      elements.message.textContent = displayCard.message;
       elements.number.textContent = card.number;
     }
 
@@ -103,6 +104,11 @@
       elements.buttonLabel.textContent = "カードを登録してください";
       elements.prompt.textContent = "新しいカードを準備しましょう";
     }
+
+    window.addEventListener("kunimamori:languagechange", () => {
+      if (currentCard) updateCard(currentCard);
+      elements.card.setAttribute("aria-label", app.i18n.t("引いたカードを拡大表示"));
+    });
 
     app.oneCard = {
       revealCard,

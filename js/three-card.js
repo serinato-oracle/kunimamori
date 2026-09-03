@@ -20,6 +20,16 @@
     let drawRun = 0;
     let isDrawing = false;
 
+    function updateSlotAriaLabels() {
+      slots.forEach((slot) => {
+        const label = slot.querySelector("h3").textContent;
+        slot.querySelector(".three-card-shell").setAttribute(
+          "aria-label",
+          app.i18n.getLanguage() === "en" ? `Enlarge the ${label} card` : `${label}のカードを拡大表示`,
+        );
+      });
+    }
+
     function chooseThreeUniqueCards() {
       const shuffled = [...cards];
 
@@ -32,13 +42,14 @@
     }
 
     function updateSlot(slot, card, index, roleReadings) {
+      const displayCard = app.i18n.translateCard(card);
       const image = slot.querySelector(".three-card-image");
       image.src = card.image;
-      image.alt = `${card.name}のカード画像`;
+      image.alt = app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`;
       slot.querySelector(".three-card-number").textContent = card.number;
-      slot.querySelector(".three-card-name").textContent = card.name;
-      slot.querySelector(".three-card-deity").textContent = card.deity || "";
-      slot.querySelector(".three-card-message").textContent = card.message;
+      slot.querySelector(".three-card-name").textContent = displayCard.name;
+      slot.querySelector(".three-card-deity").textContent = displayCard.deity || "";
+      slot.querySelector(".three-card-message").textContent = displayCard.message;
       slot.querySelector(".three-card-interpretation").textContent = roleReadings[index];
     }
 
@@ -98,7 +109,8 @@
       const selectedCards = Array.isArray(preselectedCards) ? preselectedCards.slice(0, 3) : chooseThreeUniqueCards();
       await prepareCardImages(selectedCards);
       if (activeRun !== drawRun) return;
-      const roleReadings = readingEngine.generateRoleReadings(selectedCards);
+      const displayCards = selectedCards.map((card) => app.i18n.translateCard(card));
+      const roleReadings = readingEngine.generateRoleReadings(displayCards);
       revealedCards = selectedCards;
 
       selectedCards.forEach((card, index) => {
@@ -120,7 +132,7 @@
               drawButton.disabled = false;
               isDrawing = false;
               const insightTimer = window.setTimeout(() => {
-                if (activeRun === drawRun) updateInsight(selectedCards);
+                if (activeRun === drawRun) updateInsight(displayCards);
               }, 650);
               revealTimers.push(insightTimer);
             }
@@ -159,11 +171,21 @@
         }
       });
     });
+    updateSlotAriaLabels();
 
     if (cards.length < 3) {
       drawButton.disabled = true;
       drawLabel.textContent = "カードを3枚以上登録してください";
     }
+
+    window.addEventListener("kunimamori:languagechange", () => {
+      updateSlotAriaLabels();
+      if (!revealedCards.length) return;
+      const displayCards = revealedCards.map((card) => app.i18n.translateCard(card));
+      const roleReadings = readingEngine.generateRoleReadings(displayCards);
+      revealedCards.forEach((card, index) => updateSlot(slots[index], card, index, roleReadings));
+      if (!insight.hidden) updateInsight(displayCards);
+    });
 
     app.threeCard = {
       screen,
