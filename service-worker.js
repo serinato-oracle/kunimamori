@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "kunimamori-pwa-20260903-1";
+const CACHE_NAME = "kunimamori-pwa-20260903-2";
 
 const CARD_IMAGES = Array.from({ length: 48 }, function (_, index) {
   return "./images/web/kuni-" + String(index + 1).padStart(2, "0") + ".jpg";
@@ -10,7 +10,11 @@ const APP_ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./style.css?v=20260831-18",
+  "./style.css?v=20260903-2",
+  "./terms/",
+  "./privacy/",
+  "./disclaimer/",
+  "./copyright/",
   "./fonts/NotoSerifJP-Variable.ttf",
   "./fonts/ShipporiMincho-Medium.ttf",
   "./fonts/ShipporiMincho-SemiBold.ttf",

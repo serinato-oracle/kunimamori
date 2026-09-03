@@ -859,6 +859,58 @@ body.is-special-active .daily-card-shell.is-special-reveal {
 footer { padding: 0 1rem 2rem; color: #696e6b; text-align: center; font-size: .62rem; letter-spacing: .13em; }
 .footer-mark { display: block; margin-bottom: .45rem; color: rgba(200, 164, 93, .6); }
 footer p { margin: 0; }
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .4rem 1rem;
+  margin: 0 0 .55rem;
+  font-size: .62rem;
+  letter-spacing: .08em;
+}
+.footer-links a { color: #8f918b; text-decoration: none; }
+.footer-links a:hover,
+.footer-links a:focus-visible { color: var(--gold-light); text-decoration: underline; text-underline-offset: .25em; }
+.footer-copyright { margin-top: .35rem; font-size: .56rem; letter-spacing: .08em; }
+
+/* 規約・ポリシー共通ページ */
+.legal-page { min-height: 100dvh; }
+.legal-shell { width: min(100% - 2rem, 760px); margin: 0 auto; padding: clamp(1.4rem, 5vw, 3rem) 0 2.5rem; }
+.legal-back {
+  display: inline-block;
+  margin-bottom: clamp(2rem, 7vw, 4rem);
+  color: #c9bc9a;
+  font-size: .76rem;
+  letter-spacing: .1em;
+  text-decoration: none;
+}
+.legal-back:hover,
+.legal-back:focus-visible { color: var(--gold-light); text-decoration: underline; text-underline-offset: .3em; }
+.legal-header { text-align: center; }
+.legal-header h1 { font-size: clamp(1.35rem, 4vw, 2rem); letter-spacing: .12em; text-indent: .12em; }
+.legal-panel {
+  margin-top: clamp(2rem, 6vw, 3.5rem);
+  padding: clamp(1.5rem, 5vw, 2.6rem);
+  border: 1px solid rgba(200, 164, 93, .3);
+  border-radius: 8px;
+  background: rgba(5, 20, 43, .68);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .24);
+  text-align: left;
+}
+.legal-panel h2 {
+  margin: 2.15rem 0 .85rem;
+  color: #ead39a;
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1.7;
+}
+.legal-panel p { margin: 0 0 1rem; color: #d3cec3; font-size: .85rem; letter-spacing: .06em; line-height: 2; }
+.legal-panel ul { margin: .4rem 0 1.4rem; padding-left: 1.45rem; color: #d3cec3; }
+.legal-panel li { margin: .45rem 0; padding-left: .15rem; font-size: .85rem; letter-spacing: .05em; line-height: 1.85; }
+.legal-panel > :last-child { margin-bottom: 0; }
+.legal-page footer { padding-top: 1rem; }
 
 @media (min-width: 701px) {
   body {
@@ -1411,4 +1463,50 @@ footer { padding-bottom: calc(.6rem + env(safe-area-inset-bottom, 0)); opacity: 
   .return-button { min-height: 44px; padding: .68rem 1.1rem; font-size: .72rem; }
 
   footer p { font-size: .58rem; letter-spacing: .09em; }
+  .footer-links { gap: .35rem .7rem; font-size: .58rem; letter-spacing: .04em; }
+  .footer-copyright { font-size: .52rem; }
+  .legal-shell { width: min(100% - 1.5rem, 760px); padding-top: 1rem; }
+  .legal-back { margin-bottom: 2rem; font-size: .72rem; }
+  .legal-header h1 { font-size: 1.25rem; line-height: 1.7; }
+  .legal-panel { margin-top: 1.7rem; padding: 1.4rem 1rem; }
+  .legal-panel h2 { margin-top: 1.8rem; font-size: 1rem; }
+  .legal-panel p,
+  .legal-panel li { font-size: .82rem; }
+}
+
+/* スマートフォン表示の可読性調整（文字サイズのみ） */
+@media (max-width: 680px) {
+  .shuffle-header h2,
+  .three-card-header h2,
+  .daily-header h2,
+  .history-header h2 { font-size: 1.3rem; }
+
+  .is-home-view .selection-panel h2 { font-size: .85rem; }
+  .is-home-view .draw-option__title { font-size: 1.02rem; }
+  .is-home-view .draw-option__description { font-size: .72rem; }
+  .is-home-view #choose-daily .draw-option__title { font-size: .9rem; }
+  .is-home-view .history-menu-button { font-size: .74rem; }
+
+  .card__content h2 { font-size: 1.3rem; }
+  .card__deity { font-size: .82rem; }
+  .card__message { font-size: .84rem; }
+  .action-area .prompt { font-size: 1rem; }
+  .action-area .guidance { font-size: .8rem; }
+
+  .three-card-slot h3 { font-size: .96rem; }
+  .three-card-name { font-size: 1.05rem; }
+  .three-card-copy-label { font-size: .72rem; }
+  .three-card-message { font-size: .84rem; }
+  .three-card-interpretation { font-size: .82rem; }
+  .integrated-oracle h3,
+  .today-actions h3 { font-size: 1.12rem; }
+  #integrated-oracle-message { font-size: .86rem; }
+  .today-actions li { font-size: .84rem; }
+
+  .daily-card-caption strong { font-size: 1.2rem; }
+  .daily-message { font-size: .88rem; }
+
+  .shuffle-controls .draw-button,
+  .shuffle-controls .return-button { font-size: .84rem; }
+  .return-button { font-size: .8rem; }
 }
