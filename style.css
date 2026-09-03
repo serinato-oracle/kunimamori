@@ -1436,7 +1436,11 @@ footer { padding-bottom: calc(.6rem + env(safe-area-inset-bottom, 0)); opacity: 
   .is-home-view #choose-daily .draw-option__title { font-size: .82rem; }
   .is-home-view #choose-daily .draw-option__description { display: none; }
   .is-home-view .history-menu-button { min-height: 42px; margin-top: .45rem; font-size: .67rem; }
-  .is-home-view footer { position: fixed; bottom: env(safe-area-inset-bottom, 0); padding-top: .75rem; }
+  .is-home-view footer {
+    position: static;
+    margin-top: .9rem;
+    padding-top: .75rem;
+  }
 
   .three-card-shuffle,
   .three-card-reading,
