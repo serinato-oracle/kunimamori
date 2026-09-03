@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="静かな心で一枚を引く、和モダンなオラクルカードアプリ" />
+    <meta name="theme-color" content="#061226" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="國護り" />
+    <title>國護り ― 四十八の神託 ― | Oracle Card</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/app-icon-32.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="images/icons/app-icon-120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="images/icons/app-icon-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="images/icons/app-icon-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/app-icon-180.png" />
+    <link rel="preload" as="image" href="images/icons/app-icon-192.png" />
+    <link rel="stylesheet" href="style.css?v=20260831-18" />
+    <!-- 読み込み順: データ → SPECIAL演出 → 各機能 → 起動 -->
+    <script src="js/card-data.js" defer></script>
+    <script src="js/special-effects.js" defer></script>
+    <script src="js/shuffle-effects.js" defer></script>
+    <script src="js/card-modal.js" defer></script>
+    <script src="js/three-card-shuffle.js?v=20260831-11" defer></script>
+    <script src="js/navigation.js?v=20260831-15" defer></script>
+    <script src="js/one-card.js?v=20260831-17" defer></script>
+    <script src="js/three-card-reading-engine.js" defer></script>
+    <script src="js/three-card.js?v=20260831-17" defer></script>
+    <script src="js/daily-oracle.js?v=20260831-17" defer></script>
+    <script src="js/history.js" defer></script>
+    <script src="js/image-protection.js" defer></script>
+    <script src="js/app.js?v=20260831-10" defer></script>
+    <script src="js/launch-screen.js?v=20260831-16" defer></script>
+    <script src="js/pwa.js?v=20260903-1" defer></script>
+  </head>
+  <body>
+    <div class="launch-screen" id="launch-screen" role="status" aria-label="國護りを起動しています">
+      <div class="launch-screen__center">
+        <img class="launch-screen__icon" src="images/icons/app-icon-192.png" alt="" />
+        <p class="launch-screen__title">國護り</p>
+        <p class="launch-screen__subtitle">四十八の神託</p>
+      </div>
+      <p class="launch-screen__brand">Serinato</p>
+    </div>
+    <div class="ambient ambient--one" aria-hidden="true"></div>
+    <div class="ambient ambient--two" aria-hidden="true"></div>
+    <button class="global-home" id="global-home" type="button" hidden><span aria-hidden="true">‹</span> ホーム</button>
+
+    <main class="oracle" aria-labelledby="page-title">
+      <header class="intro">
+        <p class="eyebrow"><span></span> ORACLE OF JAPAN <span></span></p>
+        <h1 id="page-title">國護り <span>― 四十八の神託 ―</span></h1>
+        <p class="lead">心を静め、今のあなたへ届く言葉を受け取ってください。</p>
+      </header>
+
+      <section class="draw-selection view" id="draw-selection" aria-labelledby="selection-title">
+        <div class="selection-card" aria-hidden="true">
+          <img src="images/web/card-back.jpg" alt="" />
+        </div>
+
+        <div class="selection-panel">
+          <p class="selection-message">心を静めて、今のあなたに必要なメッセージを<br />受け取りましょう。</p>
+          <div class="ritual-divider" aria-hidden="true"><span>✦</span></div>
+          <h2 id="selection-title">引き方を選んでください</h2>
+
+          <div class="draw-options">
+            <button class="draw-option" id="choose-one" type="button">
+              <span class="draw-option__title">一枚引き</span>
+              <span class="draw-option__description">今のあなたに必要なメッセージを受け取る</span>
+              <span class="draw-option__mark" aria-hidden="true"></span>
+            </button>
+            <button class="draw-option" id="choose-three" type="button">
+              <span class="draw-option__title">三枚引き</span>
+              <span class="draw-option__description">3枚のカードから、今の状況を読み解く</span>
+              <span class="draw-option__mark" aria-hidden="true"></span>
+            </button>
+            <button class="draw-option" id="choose-daily" type="button">
+              <span class="draw-option__title">今日の一枚</span>
+              <span class="draw-option__description">今日のあなたへ届く神託を受け取る</span>
+              <span class="draw-option__mark" aria-hidden="true"></span>
+            </button>
+          </div>
+          <button class="history-menu-button" id="choose-history" type="button">これまでの神託を見る</button>
+        </div>
+      </section>
+
+      <section class="reading view" id="one-card-reading" aria-label="1枚引きオラクルカードリーディング" hidden>
+        <div class="card-stage">
+          <div class="card" id="oracle-card">
+            <div class="card__inner">
+              <div class="card__face card__back" aria-hidden="true">
+                <img src="images/web/card-back.jpg" alt="" />
+              </div>
+
+              <article class="card__face card__front" aria-live="polite">
+                <img id="card-image" src="images/web/card-back.jpg" alt="" />
+                <div class="card__shade"></div>
+                <div class="card__content">
+                  <p class="card__number" id="card-number">壱</p>
+                  <h2 id="card-name">静寂の月</h2>
+                  <p class="card__deity" id="card-deity" hidden></p>
+                  <div class="divider" aria-hidden="true"><span>◆</span></div>
+                  <p class="card__message" id="card-message">答えは、静けさの中であなたを待っています。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-area">
+          <p class="prompt" id="prompt">心を静めて、今のあなたに<br />必要なメッセージを受け取りましょう。</p>
+          <div class="ritual-divider" aria-hidden="true"><span>✦</span></div>
+          <p class="guidance">深呼吸をして、直感を信じてください。<br />カードがあなたの道を照らします。</p>
+          <button class="draw-button" id="draw-button" type="button">
+            <span class="button-flare" aria-hidden="true"></span>
+            <span id="button-label">カードを引く</span>
+            <span class="button-star" aria-hidden="true">✷</span>
+          </button>
+          <p class="hint">準備が整ったら、ボタンをタップしてください。</p>
+          <button class="return-button one-card-return" id="one-card-return" type="button">ホームへ戻る</button>
+          <div class="ritual-divider ritual-divider--moon" aria-hidden="true"><span>☾</span></div>
+        </div>
+      </section>
+
+      <section class="three-card-shuffle view" id="three-card-shuffle" aria-labelledby="shuffle-title" hidden>
+        <header class="shuffle-header">
+          <p class="eyebrow"><span></span> CARD SHUFFLE <span></span></p>
+          <h2 id="shuffle-title">三枚の神託を選ぶ</h2>
+          <p id="shuffle-instruction" aria-live="polite">カードをシャッフルしています</p>
+        </header>
+
+        <div class="shuffle-table is-riffling" id="shuffle-table" aria-label="カードのシャッフルと選択エリア">
+          <div class="riffle-deck riffle-deck--left" id="riffle-left" aria-hidden="true"></div>
+          <div class="riffle-deck riffle-deck--right" id="riffle-right" aria-hidden="true"></div>
+          <div class="scatter-deck" id="scatter-deck" hidden></div>
+          <div class="swipe-guide" id="swipe-guide" aria-hidden="true"><span>↑</span> 上にスワイプしてシャッフル終了</div>
+        </div>
+
+        <p class="selection-progress" id="selection-progress" aria-live="polite">選択 0 / 3</p>
+        <div class="shuffle-controls">
+          <button class="draw-button shuffle-finish" id="finish-riffle" type="button">シャッフル終了</button>
+          <button class="return-button" id="restart-shuffle" type="button">最初からやり直す</button>
+          <button class="return-button" id="shuffle-return" type="button">ホームへ戻る</button>
+        </div>
+      </section>
+
+      <section class="three-card-reading view" id="three-card-reading" aria-labelledby="three-card-title" hidden>
+        <header class="three-card-header">
+          <p class="eyebrow"><span></span> THREE CARD READING <span></span></p>
+          <h2 id="three-card-title">3枚引き</h2>
+          <p>心を静めて、今のあなたに必要な流れを受け取りましょう。</p>
+        </header>
+
+        <div class="three-card-spread" id="three-card-spread" aria-live="polite">
+          <article class="three-card-slot" data-three-index="0">
+            <h3>今のあなた</h3>
+            <div class="three-card-shell">
+              <div class="three-card-back"><img src="images/web/card-back.jpg" alt="" /></div>
+              <div class="three-card-front">
+                <img class="three-card-image" src="images/web/card-back.jpg" alt="" />
+                <div class="three-card-caption">
+                  <span class="three-card-number"></span>
+                  <strong class="three-card-name"></strong>
+                  <span class="three-card-deity"></span>
+                </div>
+              </div>
+            </div>
+            <div class="three-card-reading-copy">
+              <p class="three-card-copy-label">このカード本来の神託</p>
+              <p class="three-card-message"></p>
+              <p class="three-card-copy-label">今のあなたとしての読み解き</p>
+              <p class="three-card-interpretation"></p>
+            </div>
+          </article>
+
+          <article class="three-card-slot" data-three-index="1">
+            <h3>鍵・課題</h3>
+            <div class="three-card-shell">
+              <div class="three-card-back"><img src="images/web/card-back.jpg" alt="" /></div>
+              <div class="three-card-front">
+                <img class="three-card-image" src="images/web/card-back.jpg" alt="" />
+                <div class="three-card-caption">
+                  <span class="three-card-number"></span>
+                  <strong class="three-card-name"></strong>
+                  <span class="three-card-deity"></span>
+                </div>
+              </div>
+            </div>
+            <div class="three-card-reading-copy">
+              <p class="three-card-copy-label">このカード本来の神託</p>
+              <p class="three-card-message"></p>
+              <p class="three-card-copy-label">鍵・課題としての読み解き</p>
+              <p class="three-card-interpretation"></p>
+            </div>
+          </article>
+
+          <article class="three-card-slot" data-three-index="2">
+            <h3>これから</h3>
+            <div class="three-card-shell">
+              <div class="three-card-back"><img src="images/web/card-back.jpg" alt="" /></div>
+              <div class="three-card-front">
+                <img class="three-card-image" src="images/web/card-back.jpg" alt="" />
+                <div class="three-card-caption">
+                  <span class="three-card-number"></span>
+                  <strong class="three-card-name"></strong>
+                  <span class="three-card-deity"></span>
+                </div>
+              </div>
+            </div>
+            <div class="three-card-reading-copy">
+              <p class="three-card-copy-label">このカード本来の神託</p>
+              <p class="three-card-message"></p>
+              <p class="three-card-copy-label">これからとしての読み解き</p>
+              <p class="three-card-interpretation"></p>
+            </div>
+          </article>
+        </div>
+
+        <section class="three-card-insight" id="three-card-insight" aria-live="polite" hidden>
+          <article class="integrated-oracle">
+            <p class="eyebrow"><span></span> INTEGRATED ORACLE <span></span></p>
+            <h3>三枚からの総合神託</h3>
+            <div class="ritual-divider" aria-hidden="true"><span>✦</span></div>
+            <p id="integrated-oracle-message"></p>
+          </article>
+
+          <article class="today-actions">
+            <h3>今日できること</h3>
+            <ol id="today-action-list"></ol>
+          </article>
+        </section>
+
+        <div class="three-card-actions">
+          <button class="draw-button" id="draw-three-button" type="button">
+            <span class="button-flare" aria-hidden="true"></span>
+            <span id="draw-three-label">3枚のカードを引く</span>
+            <span class="button-star" aria-hidden="true">✷</span>
+          </button>
+          <button class="return-button" id="return-to-selection" type="button">ホームへ戻る</button>
+        </div>
+      </section>
+
+      <section class="daily-oracle view" id="daily-oracle" aria-labelledby="daily-title" hidden>
+        <header class="daily-header">
+          <p class="eyebrow"><span></span> ORACLE OF THE DAY <span></span></p>
+          <h2 id="daily-title">今日の一枚</h2>
+          <p id="daily-date"></p>
+        </header>
+
+        <div class="daily-layout">
+          <div class="daily-card-shell" id="daily-card" role="button" tabindex="0" aria-label="今日のカードを拡大表示">
+            <div class="daily-card-back"><img src="images/web/card-back.jpg" alt="" /></div>
+            <article class="daily-card-front">
+              <img id="daily-card-image" src="images/web/card-back.jpg" alt="" />
+              <div class="daily-card-shade"></div>
+              <div class="daily-card-caption">
+                <span id="daily-card-number"></span>
+                <strong id="daily-card-name"></strong>
+                <span id="daily-card-deity"></span>
+              </div>
+            </article>
+          </div>
+
+          <div class="daily-content">
+            <p class="daily-prompt" id="daily-prompt">今日の神託は、まだ静かにあなたを待っています。</p>
+            <p class="daily-once-notice">今日の一枚引きは1日一回だけです</p>
+            <p class="daily-message" id="daily-card-message"></p>
+            <button class="draw-button" id="draw-daily-button" type="button">
+              <span class="button-flare" aria-hidden="true"></span>
+              <span id="draw-daily-label">今日の神託を受け取る</span>
+              <span class="button-star" aria-hidden="true">✷</span>
+            </button>
+            <button class="return-button" id="daily-return" type="button">ホームへ戻る</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="oracle-history view" id="oracle-history" aria-labelledby="history-title" hidden>
+        <header class="history-header">
+          <p class="eyebrow"><span></span> ORACLE HISTORY <span></span></p>
+          <h2 id="history-title">神託の履歴</h2>
+          <p>これまでに受け取った「今日の一枚」を振り返れます。</p>
+        </header>
+        <div class="history-list" id="history-list"></div>
+        <p class="history-empty" id="history-empty">まだ履歴はありません。</p>
+        <button class="return-button" id="history-return" type="button">ホームへ戻る</button>
+      </section>
+    </main>
+
+    <div class="card-modal" id="card-modal" hidden>
+      <button class="card-modal__backdrop" id="card-modal-backdrop" type="button" aria-label="拡大表示を閉じる"></button>
+      <div class="card-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="card-modal-title">
+        <button class="card-modal__close" id="card-modal-close" type="button" aria-label="閉じる">×</button>
+        <img id="card-modal-image" src="images/web/card-back.jpg" alt="" />
+        <div class="card-modal__caption">
+          <span id="card-modal-number"></span>
+          <strong id="card-modal-title"></strong>
+          <span id="card-modal-deity"></span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span class="footer-mark">◇</span>
+      <p>この言葉が、あなたの内なる光を照らしますように</p>
+    </footer>
+  </body>
+</html>
