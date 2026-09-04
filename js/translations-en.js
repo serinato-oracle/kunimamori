@@ -37,6 +37,7 @@
       "三枚の神託を開きます": "Opening your three cards",
       "カードを自由に混ぜて、ダブルタップで1枚選んでください": "Mix the cards freely, then double-tap to choose one card",
       "カードを自由に混ぜて、ダブルタップで3枚選んでください": "Mix the cards freely, then double-tap to choose three cards",
+      "あなたが知りたいと思っていることを心に思い浮かべながら、カードを選んでください。": "Choose a card while holding in your mind what you wish to know.",
       "裏向きのカード。ダブルタップで選択": "Face-down card. Double-tap to choose",
       "今のあなた": "Where You Are Now",
       "鍵・課題": "Key & Challenge",

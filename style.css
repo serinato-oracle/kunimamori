@@ -1060,13 +1060,25 @@ footer p { margin: 0; }
   text-indent: .2em;
 }
 
-.shuffle-header > p:last-child {
+.shuffle-header #shuffle-instruction {
   min-height: 1.8em;
   margin: .75rem auto 0;
   color: #ead7ae;
   font-size: clamp(.78rem, 1.35vw, .95rem);
   letter-spacing: .1em;
   line-height: 1.8;
+}
+
+.shuffle-question-guidance {
+  max-width: 42rem;
+  margin: .45rem auto 0;
+  padding-inline: .75rem;
+  color: rgba(255, 250, 240, .82);
+  font-size: clamp(.82rem, 1.45vw, .98rem);
+  letter-spacing: .055em;
+  line-height: 1.75;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
 .shuffle-table {
@@ -1452,8 +1464,15 @@ footer { padding-bottom: calc(.6rem + env(safe-area-inset-bottom, 0)); opacity: 
   .daily-header h2,
   .history-header h2 { font-size: 1.2rem; letter-spacing: .13em; text-indent: .13em; }
 
-  .shuffle-header > p:last-child,
+  .shuffle-header #shuffle-instruction,
   .three-card-header > p:last-child { font-size: .75rem; line-height: 1.65; }
+  .shuffle-question-guidance {
+    max-width: 22rem;
+    margin-top: .4rem;
+    padding-inline: .6rem;
+    font-size: .78rem;
+    line-height: 1.7;
+  }
   .shuffle-table { margin-top: .75rem; }
   .shuffle-controls { gap: .6rem; }
   .shuffle-controls .draw-button,
