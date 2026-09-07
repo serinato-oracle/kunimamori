@@ -58,7 +58,7 @@
       thumbnail.type = "button";
       thumbnail.setAttribute("aria-label", app.i18n.getLanguage() === "en" ? `Enlarge ${displayCard.name}` : `${displayCard.name}を拡大表示`);
       thumbnail.innerHTML = `<img class="is-protected-image" src="${card.image}" alt="${app.i18n.getLanguage() === "en" ? `${displayCard.name} card image` : `${displayCard.name}のカード画像`}" draggable="false" />`;
-      thumbnail.addEventListener("click", () => app.cardModal.open(card));
+      thumbnail.addEventListener("click", () => app.cardModal.open(card, { showShrineInfo: true }));
 
       const details = document.createElement("div");
       details.className = "history-item__details";

@@ -55,6 +55,7 @@
       "カードを清めています…": "Preparing the cards…",
       "今のあなたへ届いた言葉": "Your Message for This Moment",
       "今日のあなたへ届いた神託": "Your Divine Message for Today",
+      "ゆかりの神社仏閣": "Related Shrines and Temples",
       "今日の神託は、まだ静かにあなたを待っています。": "Today's message is quietly waiting for you.",
       "今日の一枚引きは1日一回だけです": "You can draw the Card of the Day once each day.",
       "今日の神託を受け取る": "Receive Today's Message",

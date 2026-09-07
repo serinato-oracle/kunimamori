@@ -14,6 +14,9 @@
     const number = document.querySelector("#daily-card-number");
     const name = document.querySelector("#daily-card-name");
     const deity = document.querySelector("#daily-card-deity");
+    const shrineInfo = document.querySelector("#daily-shrine-info");
+    const shrineList = document.querySelector("#daily-shrine-list");
+    const shrineNotes = document.querySelector("#daily-shrine-notes");
     let currentCard = null;
     let isDrawing = false;
 
@@ -63,6 +66,7 @@
       name.textContent = displayCard.name;
       deity.textContent = displayCard.deity || "";
       message.textContent = displayCard.message;
+      app.renderShrineInfo(shrineInfo, shrineList, shrineNotes, card);
     }
 
     async function prepareCardImage() {
@@ -108,6 +112,7 @@
       cardShell.classList.remove("is-revealed", "is-special-reveal");
       prompt.textContent = "今日の神託は、まだ静かにあなたを待っています。";
       message.textContent = "";
+      app.renderShrineInfo(shrineInfo, shrineList, shrineNotes, null);
       drawButton.hidden = false;
       drawButton.disabled = app.cards.length === 0;
       drawLabel.textContent = app.cards.length === 0 ? "カードを登録してください" : "今日の神託を受け取る";
@@ -154,12 +159,12 @@
       app.threeCardShuffle.start({ mode: "daily", count: 1 });
     });
     cardShell.addEventListener("click", () => {
-      if (currentCard) app.cardModal.open(currentCard);
+      if (currentCard) app.cardModal.open(currentCard, { showShrineInfo: true });
     });
     cardShell.addEventListener("keydown", (event) => {
       if (currentCard && (event.key === "Enter" || event.key === " ")) {
         event.preventDefault();
-        app.cardModal.open(currentCard);
+        app.cardModal.open(currentCard, { showShrineInfo: true });
       }
     });
 
