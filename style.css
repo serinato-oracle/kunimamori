@@ -1606,3 +1606,51 @@ footer { padding-bottom: calc(.6rem + env(safe-area-inset-bottom, 0)); opacity: 
     font-size: .61rem;
   }
 }
+
+/* スマートフォン表示の可読性向上 */
+@media (max-width: 680px) {
+  .shuffle-header h2,
+  .three-card-header h2,
+  .daily-header h2,
+  .history-header h2 { font-size: 1.4rem; font-weight: 500; }
+
+  .card__content h2 { font-size: 1.4rem; font-weight: 500; }
+  .card__deity { color: #f0d99f; font-size: .9rem; font-weight: 500; line-height: 1.7; }
+  .card__message { color: #f0ece4; font-size: 1rem; font-weight: 450; line-height: 2; }
+  .action-area .prompt { font-size: 1.08rem; font-weight: 500; line-height: 2.05; }
+  .action-area .guidance { color: #f3eee5; font-size: .94rem; font-weight: 450; line-height: 2; }
+
+  .three-card-slot h3 { font-size: 1.04rem; font-weight: 500; }
+  .three-card-name { font-size: 1.13rem; font-weight: 500; }
+  .three-card-deity { color: #f0d99f; font-size: .78rem; font-weight: 500; line-height: 1.7; }
+  .three-card-copy-label { color: #e5c77e; font-size: .8rem; font-weight: 500; line-height: 1.7; }
+  .three-card-message,
+  .three-card-interpretation { color: #f1ede5; font-size: .96rem; font-weight: 450; line-height: 2; }
+
+  .integrated-oracle h3,
+  .today-actions h3 { font-size: 1.2rem; font-weight: 500; }
+  #integrated-oracle-message,
+  .today-actions li { color: #f1ede5; font-size: 1rem; font-weight: 450; line-height: 2.05; }
+
+  .daily-card-caption strong { font-size: 1.28rem; font-weight: 500; }
+  .daily-card-caption span:last-child { color: #f0d99f; font-size: .78rem; font-weight: 500; line-height: 1.7; }
+  .daily-prompt { font-size: 1.08rem; font-weight: 500; line-height: 2; }
+  .daily-once-notice { color: #e7cd90; font-size: .82rem; font-weight: 500; line-height: 1.9; }
+  .daily-message { color: #f1ede5; font-size: 1rem; font-weight: 450; line-height: 2.05; }
+
+  .shrine-info h3 { font-size: 1.02rem; font-weight: 500; line-height: 1.8; }
+  .shrine-info li { color: #f1ede5; font-size: .94rem; font-weight: 450; line-height: 1.95; }
+  .shrine-info__notes { color: #d6d1c7; }
+  .shrine-info__notes p { font-size: .84rem; font-weight: 450; line-height: 1.9; }
+
+  .history-header > p:last-child,
+  .history-item__details p { color: #ede8de; font-size: .94rem; font-weight: 450; line-height: 1.9; }
+  .history-item__details small { color: #cbc7bd; font-size: .8rem; font-weight: 450; line-height: 1.8; }
+
+  .card-modal__caption strong { font-size: 1.05rem; font-weight: 500; }
+  .card-modal__caption span { color: #dfc47f; font-size: .78rem; font-weight: 500; line-height: 1.7; }
+
+  .shuffle-controls .draw-button,
+  .shuffle-controls .return-button,
+  .return-button { font-size: .94rem; font-weight: 500; line-height: 1.7; }
+}
