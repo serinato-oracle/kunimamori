@@ -1196,7 +1196,7 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
 .encyclopedia-detail__section p,
 .encyclopedia-detail__section li {
   color: #f1eee7;
-  font-size: 1.08rem;
+  font-size: 17px;
   font-weight: 450;
   line-height: 1.82;
 }
@@ -1242,7 +1242,7 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
   .encyclopedia-card__locked-hint { font-size: .68rem; }
   .encyclopedia-detail__section { padding: 1.15rem .95rem; }
   .encyclopedia-detail__section p,
-  .encyclopedia-detail__section li { font-size: 1.06rem; line-height: 1.82; }
+  .encyclopedia-detail__section li { font-size: 17px; line-height: 1.82; }
 }
 
 /* 3枚引き前のインタラクティブシャッフル */
