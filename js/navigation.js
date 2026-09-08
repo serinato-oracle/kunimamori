@@ -62,6 +62,9 @@
       showView(views.history);
     });
     document.querySelector("#choose-encyclopedia").addEventListener("click", () => {
+      if (app.history && app.history.readEntries) {
+        app.encyclopedia.restoreFromEntries(app.history.readEntries());
+      }
       app.encyclopedia.renderList();
       showView(views.encyclopedia);
     });

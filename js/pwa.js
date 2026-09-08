@@ -15,7 +15,7 @@
       });
     }
 
-    navigator.serviceWorker.register("./service-worker.js", { scope: "./", updateViaCache: "none" })
+    navigator.serviceWorker.register("./service-worker.js?v=20260908-24", { scope: "./", updateViaCache: "none" })
       .then(function (registration) {
         return registration.update();
       })

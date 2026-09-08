@@ -102,6 +102,19 @@
     return restored.length - unlocked.length;
   }
 
+  function restoreFromEntries(entries) {
+    if (!Array.isArray(entries)) return 0;
+    const unlocked = readUnlocked();
+    const merged = new Set(unlocked);
+    entries.forEach((entry) => {
+      const number = entry && normalizeNumber(entry.cardNumber || entry.number || (entry.card && entry.card.number));
+      if (number) merged.add(number);
+    });
+    const restored = Array.from(merged).sort((a, b) => a - b);
+    if (restored.length !== unlocked.length) writeUnlocked(restored);
+    return restored.length - unlocked.length;
+  }
+
   function getEntry(cardNumber) {
     const normalized = normalizeNumber(cardNumber);
     if (!normalized || !app.encyclopediaCards) return null;
@@ -271,5 +284,5 @@
     if (elements.menu) elements.menu.textContent = isEnglish() ? "Divine Encyclopedia" : "神仏図鑑";
   }
 
-  app.encyclopedia = { init, unlock, readUnlocked, renderList, showDetail, restoreFromDailyHistory, storageKey: STORAGE_KEY };
+  app.encyclopedia = { init, unlock, readUnlocked, renderList, showDetail, restoreFromDailyHistory, restoreFromEntries, storageKey: STORAGE_KEY };
 })(window.Kunimamori);
