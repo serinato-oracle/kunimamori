@@ -94,7 +94,7 @@
     const unlocked = readUnlocked();
     const merged = new Set(unlocked);
     entries.forEach((entry) => {
-      const number = entry && normalizeNumber(entry.cardNumber);
+      const number = entry && normalizeNumber(entry.cardNumber || entry.number || (entry.card && entry.card.number));
       if (number) merged.add(number);
     });
     const restored = Array.from(merged).sort((a, b) => a - b);
@@ -152,6 +152,7 @@
 
   function renderList() {
     if (!elements) return;
+    restoreFromDailyHistory();
     const copy = labels();
     const unlocked = new Set(readUnlocked());
     elements.title.textContent = copy.title;
