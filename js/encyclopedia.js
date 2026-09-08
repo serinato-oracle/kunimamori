@@ -31,7 +31,7 @@
     } : {
       title: "神仏図鑑",
       count: "神仏とのご縁",
-      locked: "今日の一枚で出会うと開放されます",
+      locked: "今日の一枚で出会うと解放されます",
       open: "神仏図鑑のカードを開く No.",
       home: "ホームへ戻る",
       back: "神仏図鑑へ戻る",
@@ -170,6 +170,7 @@
     const unlocked = new Set(readUnlocked());
     elements.title.textContent = copy.title;
     elements.count.textContent = `${copy.count}　${unlocked.size} / ${TOTAL_CARDS}`;
+    elements.guide.textContent = copy.locked;
     elements.home.textContent = copy.home;
     elements.grid.replaceChildren();
 
@@ -189,7 +190,6 @@
       image.src = open && card ? card.image : "images/web/card-back.jpg";
       image.alt = "";
       item.append(image, makeText("span", "encyclopedia-card__number", `No.${number}`));
-      if (!open) item.append(makeText("span", "encyclopedia-card__locked-hint", copy.locked));
       elements.grid.append(item);
     }
   }
@@ -269,6 +269,7 @@
     elements = {
       title: document.querySelector("#encyclopedia-title"),
       count: document.querySelector("#encyclopedia-count"),
+      guide: document.querySelector("#encyclopedia-unlock-guide"),
       grid: document.querySelector("#encyclopedia-grid"),
       home: document.querySelector("#encyclopedia-return"),
       detailContent: document.querySelector("#encyclopedia-detail-content"),

@@ -1085,11 +1085,19 @@ footer p { margin: 0; }
 }
 
 #encyclopedia-count {
-  margin: 0 0 1.5rem;
+  margin: 0 0 .55rem;
   color: #efd99f;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: .06em;
+}
+
+.encyclopedia-unlock-guide {
+  margin: 0 0 1.5rem;
+  color: #ded8cc;
+  font-size: .9rem;
+  font-weight: 450;
+  line-height: 1.7;
 }
 
 .encyclopedia-grid {
@@ -1128,16 +1136,6 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
   font-size: .92rem;
   font-weight: 600;
   letter-spacing: .05em;
-}
-
-.encyclopedia-card__locked-hint {
-  display: block;
-  min-height: 2.8em;
-  margin-top: .3rem;
-  color: #d6d0c3;
-  font-size: .73rem;
-  font-weight: 450;
-  line-height: 1.4;
 }
 
 .divine-encyclopedia > .return-button,
@@ -1230,7 +1228,7 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
 }
 
 .is-language-en .encyclopedia-detail,
-.is-language-en .encyclopedia-card__locked-hint { hyphens: auto; word-break: normal; overflow-wrap: anywhere; }
+.is-language-en .encyclopedia-unlock-guide { hyphens: auto; word-break: normal; overflow-wrap: anywhere; }
 
 @media (min-width: 720px) {
   .encyclopedia-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
@@ -1239,7 +1237,6 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
 @media (max-width: 390px) {
   .encyclopedia-grid { gap: .8rem .6rem; }
   .encyclopedia-card { padding: .42rem; }
-  .encyclopedia-card__locked-hint { font-size: .68rem; }
   .encyclopedia-detail__section { padding: 1.15rem .95rem; }
   .encyclopedia-detail__section p,
   .encyclopedia-detail__section li { font-size: 17px; line-height: 1.82; }
