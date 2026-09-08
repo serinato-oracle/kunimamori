@@ -3,7 +3,6 @@
 
   const BACK_IMAGE = "images/web/card-back.jpg";
   const SWIPE_DISTANCE = 70;
-  const DOUBLE_TAP_DELAY = 360;
   const SCATTER_SAFE_MARGIN = 14;
 
   function shuffledCards(cards) {
@@ -45,6 +44,8 @@
     let riffleAnimations = [];
     let targetMode = "three";
     let targetCount = 3;
+    let provisionalElement = null;
+    let provisionalCard = null;
 
     function isEnglish() {
       return app.i18n.getLanguage() === "en";
@@ -58,8 +59,8 @@
 
     function unselectedAriaLabel() {
       return isEnglish()
-        ? "Face-down card. Double-tap to select."
-        : "裏向きのカード。ダブルタップして選択してください。";
+        ? "Face-down card. Tap once to temporarily select."
+        : "裏向きのカード。1回タップして仮選択してください。";
     }
 
     function selectedAriaLabel(order) {
@@ -68,12 +69,19 @@
       return `Selected as the ${ordinal} card.`;
     }
 
+    function provisionalAriaLabel() {
+      return isEnglish()
+        ? "Temporarily selected. Tap the same card again to confirm."
+        : "仮選択中。同じカードをもう一度タップして確定してください。";
+    }
+
     function updateScatterAriaLabels() {
       Array.from(scatterDeck.children).forEach((element) => {
         const selected = element.classList.contains("is-selected");
+        const provisional = element.classList.contains("is-provisional");
         const order = Number(element.dataset.selectionOrder || 0);
-        element.setAttribute("aria-label", selected ? selectedAriaLabel(order) : unselectedAriaLabel());
-        element.setAttribute("aria-pressed", String(selected));
+        element.setAttribute("aria-label", selected ? selectedAriaLabel(order) : provisional ? provisionalAriaLabel() : unselectedAriaLabel());
+        element.setAttribute("aria-pressed", selected ? "true" : provisional ? "mixed" : "false");
         const badge = element.querySelector(".scatter-card__badge");
         if (selected && badge) badge.textContent = selectionLabel(order);
       });
@@ -166,14 +174,15 @@
       const x = Number(element.dataset.x || 0);
       const y = Number(element.dataset.y || 0);
       const rotation = Number(element.dataset.rotation || 0);
-      element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`;
+      const provisionalTransform = element.classList.contains("is-provisional") ? " translateY(-8px) scale(1.06)" : "";
+      element.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)${provisionalTransform}`;
     }
 
     function stirNearbyCards(activeCard, movementX, movementY) {
       const activeX = Number(activeCard.dataset.x || 0) + activeCard.offsetWidth / 2;
       const activeY = Number(activeCard.dataset.y || 0) + activeCard.offsetHeight / 2;
       const candidates = Array.from(scatterDeck.children)
-        .filter((card) => card !== activeCard && !card.classList.contains("is-selected"))
+        .filter((card) => card !== activeCard && !card.classList.contains("is-selected") && !card.classList.contains("is-provisional"))
         .map((card) => {
           const x = Number(card.dataset.x || 0) + card.offsetWidth / 2;
           const y = Number(card.dataset.y || 0) + card.offsetHeight / 2;
@@ -205,6 +214,12 @@
 
     function selectCard(element, card) {
       if (phase !== "scatter" || element.classList.contains("is-selected") || selectedCards.length >= targetCount) return;
+      if (provisionalElement === element) {
+        provisionalElement.classList.remove("is-provisional");
+        applyPosition(provisionalElement);
+        provisionalElement = null;
+        provisionalCard = null;
+      }
       selectedCards.push(card);
       const order = selectedCards.length;
       element.classList.add("is-selected");
@@ -243,9 +258,34 @@
       }
     }
 
+    function clearProvisionalSelection() {
+      if (!provisionalElement) return;
+      provisionalElement.classList.remove("is-provisional");
+      provisionalElement.setAttribute("aria-label", unselectedAriaLabel());
+      provisionalElement.setAttribute("aria-pressed", "false");
+      applyPosition(provisionalElement);
+      provisionalElement = null;
+      provisionalCard = null;
+    }
+
+    function handleSelectionTap(element, card) {
+      if (phase !== "scatter" || element.classList.contains("is-selected") || selectedCards.length >= targetCount) return;
+      if (provisionalElement === element) {
+        selectCard(element, provisionalCard || card);
+        return;
+      }
+      clearProvisionalSelection();
+      provisionalElement = element;
+      provisionalCard = card;
+      element.classList.add("is-provisional");
+      element.style.zIndex = String(++topLayer);
+      element.setAttribute("aria-label", provisionalAriaLabel());
+      element.setAttribute("aria-pressed", "mixed");
+      applyPosition(element);
+    }
+
     function bindCardInteraction(element, card) {
       let drag = null;
-      let lastTapAt = 0;
       let lastStirAt = 0;
 
       ["touchstart", "touchmove", "touchend", "touchcancel"].forEach((eventName) => {
@@ -264,6 +304,7 @@
           originX: Number(element.dataset.x || 0),
           originY: Number(element.dataset.y || 0),
           moved: false,
+          locked: element.classList.contains("is-provisional"),
         };
         element.classList.add("is-dragging");
       });
@@ -273,6 +314,7 @@
         const dx = event.clientX - drag.startX;
         const dy = event.clientY - drag.startY;
         if (Math.hypot(dx, dy) > 7) drag.moved = true;
+        if (drag.locked) return;
         const maxX = Math.max(SCATTER_SAFE_MARGIN, table.clientWidth - element.offsetWidth - SCATTER_SAFE_MARGIN);
         const maxY = Math.max(SCATTER_SAFE_MARGIN, table.clientHeight - element.offsetHeight - SCATTER_SAFE_MARGIN);
         element.dataset.x = String(Math.min(maxX, Math.max(SCATTER_SAFE_MARGIN, drag.originX + dx)));
@@ -291,16 +333,9 @@
         drag = null;
         element.classList.remove("is-dragging");
         if (wasMoved) {
-          lastTapAt = 0;
           return;
         }
-        const now = Date.now();
-        if (now - lastTapAt <= DOUBLE_TAP_DELAY) {
-          lastTapAt = 0;
-          selectCard(element, card);
-        } else {
-          lastTapAt = now;
-        }
+        handleSelectionTap(element, card);
       }
 
       element.addEventListener("pointerup", finishPointer);
@@ -310,7 +345,14 @@
       });
       element.addEventListener("dblclick", (event) => {
         event.preventDefault();
-        selectCard(element, card);
+      });
+      element.addEventListener("click", (event) => {
+        if (event.detail === 0) handleSelectionTap(element, card);
+      });
+      element.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        handleSelectionTap(element, card);
       });
     }
 
@@ -328,8 +370,8 @@
       finishButton.hidden = true;
       scatterDeck.hidden = false;
       instruction.textContent = isEnglish()
-        ? `Mix the cards freely, then double-tap to choose ${targetCount}.`
-        : `カードを自由に混ぜて、ダブルタップで${targetCount}枚選んでください`;
+        ? `Tap once to choose a card, then tap it again to confirm. Choose ${targetCount}.`
+        : `カードを1回タップして仮選択し、もう一度タップして確定してください（${targetCount}枚）`;
       scatterDeck.replaceChildren();
 
       const deck = shuffledCards(app.cards);
@@ -359,6 +401,8 @@
       stopRiffleAnimations();
       phase = "riffle";
       selectedCards = [];
+      provisionalElement = null;
+      provisionalCard = null;
       topLayer = 100;
       swipeStartY = null;
       targetMode = options.mode || targetMode || "three";
@@ -410,8 +454,8 @@
       }
       if (phase === "scatter") {
         instruction.textContent = isEnglish()
-          ? `Mix the cards freely, then double-tap to choose ${targetCount}.`
-          : `カードを自由に混ぜて、ダブルタップで${targetCount}枚選んでください`;
+          ? `Tap once to choose a card, then tap it again to confirm. Choose ${targetCount}.`
+          : `カードを1回タップして仮選択し、もう一度タップして確定してください（${targetCount}枚）`;
       }
     });
 

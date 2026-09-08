@@ -1395,6 +1395,12 @@ button.encyclopedia-card:focus-visible { outline: 2px solid var(--ivory); outlin
 }
 .scatter-card.is-dragging { cursor: grabbing; filter: drop-shadow(0 12px 10px rgba(0, 0, 0, .5)); }
 .scatter-card.is-dragging { transition: opacity .38s ease, filter .25s ease, box-shadow .25s ease; }
+.scatter-card.is-provisional {
+  border-color: rgba(255, 231, 165, .9);
+  box-shadow: 0 0 0 2px rgba(218, 176, 83, .5), 0 0 20px rgba(255, 218, 126, .72);
+  filter: brightness(1.12) drop-shadow(0 12px 10px rgba(0, 0, 0, .44));
+  transition: transform .24s cubic-bezier(.2, .8, .25, 1), opacity .38s ease, filter .25s ease, box-shadow .25s ease;
+}
 .scatter-card.is-selected {
   cursor: default;
   border-color: #ffe7a5;
