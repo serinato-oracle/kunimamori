@@ -2,6 +2,7 @@
   "use strict";
 
   const STORAGE_KEY = "kunimamori.encyclopediaUnlocked.v1";
+  const DAILY_HISTORY_KEY = "kunimamori.dailyHistory.v1";
   const TOTAL_CARDS = 48;
   let currentDetailId = null;
   let elements = null;
@@ -79,6 +80,26 @@
     writeUnlocked(unlocked);
     renderList();
     return true;
+  }
+
+  function restoreFromDailyHistory() {
+    let entries;
+    try {
+      entries = JSON.parse(window.localStorage.getItem(DAILY_HISTORY_KEY) || "[]");
+    } catch (error) {
+      return 0;
+    }
+    if (!Array.isArray(entries)) return 0;
+
+    const unlocked = readUnlocked();
+    const merged = new Set(unlocked);
+    entries.forEach((entry) => {
+      const number = entry && normalizeNumber(entry.cardNumber);
+      if (number) merged.add(number);
+    });
+    const restored = Array.from(merged).sort((a, b) => a - b);
+    if (restored.length !== unlocked.length) writeUnlocked(restored);
+    return restored.length - unlocked.length;
   }
 
   function getEntry(cardNumber) {
@@ -230,6 +251,7 @@
   }
 
   function init() {
+    restoreFromDailyHistory();
     elements = {
       title: document.querySelector("#encyclopedia-title"),
       count: document.querySelector("#encyclopedia-count"),
@@ -248,5 +270,5 @@
     if (elements.menu) elements.menu.textContent = isEnglish() ? "Divine Encyclopedia" : "神仏図鑑";
   }
 
-  app.encyclopedia = { init, unlock, readUnlocked, renderList, showDetail, storageKey: STORAGE_KEY };
+  app.encyclopedia = { init, unlock, readUnlocked, renderList, showDetail, restoreFromDailyHistory, storageKey: STORAGE_KEY };
 })(window.Kunimamori);
