@@ -532,6 +532,10 @@ h1 {
 .shrine-info ul { display: grid; gap: .48rem; margin: 0; padding: 0; list-style: none; }
 .shrine-info li { font-size: .78rem; letter-spacing: .04em; line-height: 1.75; }
 .shrine-info__mark { display: inline-block; width: 1.4em; color: var(--gold); }
+.shrine-info__details { min-width: 0; }
+.shrine-info__name { overflow-wrap: anywhere; }
+.shrine-info__location { display: block; margin-top: .08rem; color: #c9c4b9; font-size: .88em; line-height: 1.65; overflow-wrap: anywhere; }
+.is-language-en .shrine-info li { display: grid; grid-template-columns: 1.4em minmax(0, 1fr); }
 .shrine-info__notes { display: grid; gap: .35rem; margin-top: .7rem; color: #aaa99f; }
 .shrine-info__notes:empty { display: none; }
 .shrine-info__notes p { margin: 0; font-size: .7rem; letter-spacing: .04em; line-height: 1.7; }

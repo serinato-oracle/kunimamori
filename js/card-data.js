@@ -535,12 +535,59 @@ window.Kunimamori.cards = [
     "40": { places: [["★", "伊勢神宮 皇大神宮・内宮", "三重県伊勢市"], ["○", "天岩戸神社", "宮崎県高千穂町"], ["○", "日御碕神社", "島根県出雲市"]] },
   };
 
+  const shrineInfoEnByNumber = {
+    "01": { places: [["★", "Samuhara Shrine Okunomiya", "Tsuyama City, Okayama Prefecture"], ["★", "Samuhara Shrine", "Osaka City, Osaka Prefecture"]] },
+    "02": { places: [["★", "Izanagi Jingu Shrine", "Awaji City, Hyogo Prefecture"], ["○", "Taga Taisha Shrine", "Inukami District, Shiga Prefecture"], ["○", "Shirayama Hime Shrine", "Hakusan City, Ishikawa Prefecture"]] },
+    "03": { places: [["★", "Tsukiyomi-no-miya (Naiku), Ise Jingu", "Ise City, Mie Prefecture"], ["○", "Tsukiyomi-no-miya (Geku), Ise Jingu", "Ise City, Mie Prefecture"], ["○", "Tsukiyomi Shrine", "Kyoto City, Kyoto Prefecture"]] },
+    "04": { places: [["★", "Kashima Jingu Shrine", "Kashima City, Ibaraki Prefecture"], ["○", "Kasuga Taisha Shrine", "Nara City, Nara Prefecture"], ["○", "Shiogama Shrine", "Shiogama City, Miyagi Prefecture"]] },
+    "05": { places: [["★", "Tsubakikishi Shrine", "Suzuka City, Mie Prefecture"], ["○", "Sarume Shrine", "Ise City, Mie Prefecture"], ["○", "Ota Shrine", "Kyoto City, Kyoto Prefecture"]] },
+    "06": { places: [["★", "Abe Monju-in Temple", "Sakurai City, Nara Prefecture"], ["○", "Chion-ji Temple", "Miyazu City, Kyoto Prefecture"], ["○", "Monjusen-ji Temple", "Kunisaki City, Oita Prefecture"]] },
+    "07": { places: [["★", "Atsuta Jingu Shrine", "Nagoya City, Aichi Prefecture"], ["○", "Hikami Anego Shrine", "Nagoya City, Aichi Prefecture"], ["○", "Yaizu Shrine", "Yaizu City, Shizuoka Prefecture"]], notes: ["These sites were selected for their deep connection to Kusanagi-no-Tsurugi itself, or to the legends of Yamato Takeru and the sacred sword."] },
+    "08": { places: [["★", "Sarutahiko Shrine", "Ise City, Mie Prefecture"], ["★", "Tsubaki Grand Shrine", "Suzuka City, Mie Prefecture"], ["○", "Futami Okitama Shrine", "Ise City, Mie Prefecture"]] },
+    "09": { places: [["★", "Akihasan Hongu Akiha Shrine", "Hamamatsu City, Shizuoka Prefecture"], ["○", "Atago Shrine", "Kyoto City, Kyoto Prefecture"]] },
+    "10": { places: [["★", "Fushimi Inari Taisha Shrine", "Kyoto City, Kyoto Prefecture"], ["○", "Kasama Inari Shrine", "Kasama City, Ibaraki Prefecture"], ["○", "Yutoku Inari Shrine", "Kashima City, Saga Prefecture"]] },
+    "11": { places: [["★", "Tamanooya Shrine", "Hofu City, Yamaguchi Prefecture"], ["○", "Tamatsukuri-yu Shrine", "Matsue City, Shimane Prefecture"]], notes: ["These sites are closely associated with the traditions of jewel-making, ancestral jewel deities, and magatama, rather than with the direct enshrinement of Yasakani-no-Magatama itself."] },
+    "12": { places: [["★", "Sukunahikona Shrine", "Osaka City, Osaka Prefecture"], ["○", "Oarai Isosaki Shrine", "Oarai Town, Ibaraki Prefecture"], ["○", "Sakatsura Isosaki Shrine", "Hitachinaka City, Ibaraki Prefecture"]] },
+    "13": { places: [["★", "Oyamazumi Shrine", "Omishima, Imabari City, Ehime Prefecture"], ["○", "Mishima Taisha Shrine", "Mishima City, Shizuoka Prefecture"], ["○", "Oyama Afuri Shrine", "Isehara City, Kanagawa Prefecture"]] },
+    "14": { places: [["★", "Toyouke Daijingu (Geku), Ise Jingu", "Ise City, Mie Prefecture"], ["○", "Moto-Ise Toyouke Daijinja Shrine", "Fukuchiyama City, Kyoto Prefecture"]] },
+    "15": { places: [["★", "Fujisan Hongu Sengen Taisha Shrine", "Fujinomiya City, Shizuoka Prefecture"], ["○", "Kitaguchi Hongu Fuji Sengen Shrine", "Fujiyoshida City, Yamanashi Prefecture"], ["○", "Fuji Omuro Sengen Shrine", "Fujikawaguchiko Town, Yamanashi Prefecture"]] },
+    "16": { places: [["★", "Izumo Taisha Shrine", "Izumo City, Shimane Prefecture"], ["○", "Izumo Daijingu Shrine", "Kameoka City, Kyoto Prefecture"], ["○", "Keta Taisha Shrine", "Hakui City, Ishikawa Prefecture"]] },
+    "17": { places: [["★", "Aizendo Shoman-in Temple", "Osaka City, Osaka Prefecture"], ["○", "Saidaiji Aizendo Hall", "Nara City, Nara Prefecture"]] },
+    "18": { places: [["★", "Munakata Taisha Shrine", "Munakata City, Fukuoka Prefecture"], ["○", "Itsukushima Shrine", "Hatsukaichi City, Hiroshima Prefecture"], ["○", "Enoshima Shrine", "Fujisawa City, Kanagawa Prefecture"]] },
+    "19": { places: [["★", "Usa Jingu Shrine", "Usa City, Oita Prefecture"], ["○", "Iwashimizu Hachimangu Shrine", "Yawata City, Kyoto Prefecture"], ["○", "Tsurugaoka Hachimangu Shrine", "Kamakura City, Kanagawa Prefecture"]] },
+    "20": { places: [["★", "Omiwa Shrine", "Sakurai City, Nara Prefecture"], ["★", "Kotohira-gu Shrine", "Kotohira Town, Kagawa Prefecture"]] },
+    "21": { places: [["★", "Dosojin Shrine", "Kyoto City, Kyoto Prefecture"], ["○", "Dosojin Stone Deities of Azumino", "Azumino City, Nagano Prefecture"]], notes: ["Dosojin are often enshrined not in formal shrines, but as stone deities placed at village borders, crossroads, and along roads."] },
+    "22": { places: [["★", "Shirayama Hime Shrine", "Hakusan City, Ishikawa Prefecture"], ["○", "Niigata Hakusan Shrine", "Niigata City, Niigata Prefecture"]] },
+    "23": { places: [["★", "Senso-ji Temple", "Taito City, Tokyo"], ["○", "Hasedera Temple", "Sakurai City, Nara Prefecture"], ["○", "Kiyomizu-dera Temple", "Kyoto City, Kyoto Prefecture"]] },
+    "24": { places: [["★", "Shigisan Chogosonshi-ji Temple", "Heguri Town, Nara Prefecture"], ["○", "Kurama-dera Temple", "Kyoto City, Kyoto Prefecture"], ["○", "Bishamondo Monzeki Temple", "Kyoto City, Kyoto Prefecture"]] },
+    "25": { places: [["★", "Naritasan Shinsho-ji Temple", "Narita City, Chiba Prefecture"], ["○", "Takahata Fudoson Kongo-ji Temple", "Hino City, Tokyo"], ["○", "Meguro Fudoson Ryusen-ji Temple", "Meguro City, Tokyo"]] },
+    "26": { places: [["★", "Horyu-ji Temple", "Ikaruga Town, Nara Prefecture"], ["○", "Seiryo-ji Temple", "Kyoto City, Kyoto Prefecture"]] },
+    "27": { places: [["★", "Tokudaiji Temple — Marishiten Hall", "Taito City, Tokyo"], ["○", "Zenko-an Temple — Marishiten Hall", "Kyoto City, Kyoto Prefecture"]] },
+    "28": { places: [["★", "Enjo-ji Temple", "Nara City, Nara Prefecture"], ["○", "To-ji Temple", "Kyoto City, Kyoto Prefecture"], ["○", "Konpon Daito, Mount Koya", "Koya Town, Wakayama Prefecture"]] },
+    "29": { places: [["★", "Katori Jingu Shrine", "Katori City, Chiba Prefecture"], ["○", "Kasuga Taisha Shrine", "Nara City, Nara Prefecture"], ["○", "Shiogama Shrine", "Shiogama City, Miyagi Prefecture"]] },
+    "30": { places: [["★", "Ukemochi Shrine", "Tsubura, Kurashiki City, Okayama Prefecture"], ["○", "Ukemochi Shrine", "Yuwa Hiraodori, Akita City, Akita Prefecture"]], notes: ["Both shrines are confirmed to directly enshrine Ukemochi-no-Kami, also known as Ukemochi Okami."] },
+    "31": { places: [["★", "Koryu-ji Temple", "Kyoto City, Kyoto Prefecture"], ["○", "Chugu-ji Temple", "Ikaruga Town, Nara Prefecture"], ["○", "Miroku Hall, Muro-ji Temple", "Uda City, Nara Prefecture"]] },
+    "32": { places: [["★", "Kumano Hongu Taisha Shrine", "Tanabe City, Wakayama Prefecture"], ["★", "Kumano Hayatama Taisha Shrine", "Shingu City, Wakayama Prefecture"], ["★", "Kumano Nachi Taisha Shrine", "Nachikatsuura Town, Wakayama Prefecture"]], notes: ["These three sacred sites form the Kumano Sanzan. Visiting all three as a pilgrimage is especially recommended."] },
+    "33": { places: [["★", "Susa Shrine", "Izumo City, Shimane Prefecture"], ["○", "Yasaka Shrine", "Kyoto City, Kyoto Prefecture"], ["○", "Kumano Taisha Shrine", "Matsue City, Shimane Prefecture"]] },
+    "34": { places: [["★", "Uneo Tsutamoto Shrine", "Kashihara City, Nara Prefecture"]], notes: ["For those wishing to visit a sacred site associated with Nakisawame-no-Kami, this is the most natural first destination."] },
+    "35": { places: [["★", "Kurihara Shrine", "Zama City, Kanagawa Prefecture"], ["○", "Yomotsu Hirasaka", "Matsue City, Shimane Prefecture"], ["○", "Iya Shrine", "Matsue City, Shimane Prefecture"]], notes: ["Kurihara Shrine directly enshrines Chigaeshi-no-Okami. Yomotsu Hirasaka and Iya Shrine were selected for their deep connection to the mythology of Yomi, the land of the dead."] },
+    "36": { places: [["★", "Hayachine Shrine", "Iwate Prefecture"], ["○", "Hayachine Shrine, Tono", "Tono City, Iwate Prefecture"]], notes: ["These sites were selected with a focus on the Hayachine tradition, in which Seoritsuhime is directly revered as an enshrined deity."] },
+    "37": { places: [["★", "Yakushi-ji Temple", "Nara City, Nara Prefecture"], ["○", "Shin-Yakushi-ji Temple", "Nara City, Nara Prefecture"]] },
+    "38": { places: [["★", "Kotaijingu (Naiku), Ise Jingu", "Ise City, Mie Prefecture"], ["○", "Amanoiwato Shrine", "Takachiho Town, Miyazaki Prefecture"]], notes: ["These sites were selected for their deep connection to Yata-no-Kagami itself and to the myth of Amano-Iwato."] },
+    "39": { places: [["★", "Kifune Shrine", "Kyoto City, Kyoto Prefecture"], ["★", "Keyakurotatsu Shrine", "Fukui City, Fukui Prefecture"], ["○", "Niu Kawakami Shrine", "Nara Prefecture"]], notes: ["Keyakurotatsu Shrine directly enshrines both Takaokami-no-Kami and Kuraokami-no-Kami."] },
+    "40": { places: [["★", "Kotaijingu (Naiku), Ise Jingu", "Ise City, Mie Prefecture"], ["○", "Amanoiwato Shrine", "Takachiho Town, Miyazaki Prefecture"], ["○", "Hinomisaki Shrine", "Izumo City, Shimane Prefecture"]] },
+  };
+
   app.cards.forEach((card) => {
-    card.shrineInfo = shrineInfoByNumber[String(card.number).padStart(2, "0")] || { places: [], notes: [] };
+    const number = String(card.number).padStart(2, "0");
+    card.shrineInfo = shrineInfoByNumber[number] || { places: [], notes: [] };
+    card.shrineInfo.en = shrineInfoEnByNumber[number] || { places: [], notes: [] };
   });
 
   app.renderShrineInfo = function renderShrineInfo(container, list, notesContainer, card) {
-    const info = card && card.shrineInfo;
+    const baseInfo = card && card.shrineInfo;
+    const isEnglish = app.i18n && app.i18n.getLanguage() === "en";
+    const info = isEnglish && baseInfo && baseInfo.en ? baseInfo.en : baseInfo;
     const places = info && Array.isArray(info.places) ? info.places : [];
     const notes = info && Array.isArray(info.notes) ? info.notes : [];
     list.replaceChildren();
@@ -552,7 +599,21 @@ window.Kunimamori.cards = [
       markElement.className = "shrine-info__mark";
       markElement.setAttribute("aria-hidden", "true");
       markElement.textContent = mark;
-      item.append(markElement, document.createTextNode(`${shrineName}｜${location}`));
+      const details = document.createElement("span");
+      details.className = "shrine-info__details";
+      const nameElement = document.createElement("span");
+      nameElement.className = "shrine-info__name";
+      nameElement.textContent = shrineName;
+      details.append(nameElement);
+      if (isEnglish) {
+        const locationElement = document.createElement("span");
+        locationElement.className = "shrine-info__location";
+        locationElement.textContent = location;
+        details.append(locationElement);
+      } else {
+        nameElement.append(document.createTextNode(`｜${location}`));
+      }
+      item.append(markElement, details);
       list.append(item);
     });
 
