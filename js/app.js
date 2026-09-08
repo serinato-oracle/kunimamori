@@ -4,6 +4,7 @@
   app.cardModalModule.init();
   app.threeCardShuffleModule.init();
   app.navigationModule.init();
+  app.encyclopedia.init();
   app.oneCardModule.init();
   app.threeCardModule.init();
   app.historyModule.init();

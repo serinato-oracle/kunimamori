@@ -17,6 +17,8 @@
     const shrineInfo = document.querySelector("#daily-shrine-info");
     const shrineList = document.querySelector("#daily-shrine-list");
     const shrineNotes = document.querySelector("#daily-shrine-notes");
+    const encyclopediaLink = document.querySelector("#daily-encyclopedia-link");
+    const encyclopediaNotice = document.querySelector("#daily-encyclopedia-notice");
     let currentCard = null;
     let isDrawing = false;
 
@@ -79,10 +81,17 @@
     }
 
     async function showDrawnCard(card, animate) {
+      const newlyUnlocked = app.encyclopedia.unlock(card.number);
       updateCard(card);
       if (animate) await prepareCardImage();
       prompt.textContent = "今日のあなたへ届いた神託";
       drawButton.hidden = true;
+      encyclopediaLink.hidden = false;
+      encyclopediaLink.textContent = app.i18n.getLanguage() === "en" ? "View in Divine Encyclopedia" : "神仏図鑑で詳しく見る";
+      encyclopediaNotice.hidden = !(animate && newlyUnlocked);
+      encyclopediaNotice.textContent = app.i18n.getLanguage() === "en"
+        ? "A new connection has been added to your Divine Encyclopedia."
+        : "神仏図鑑に新しいご縁が加わりました";
 
       if (animate) {
         app.specialEffects.beforeReveal(card, cardShell);
@@ -112,6 +121,8 @@
       cardShell.classList.remove("is-revealed", "is-special-reveal");
       prompt.textContent = "今日の神託は、まだ静かにあなたを待っています。";
       message.textContent = "";
+      encyclopediaLink.hidden = true;
+      encyclopediaNotice.hidden = true;
       app.renderShrineInfo(shrineInfo, shrineList, shrineNotes, null);
       drawButton.hidden = false;
       drawButton.disabled = app.cards.length === 0;
@@ -166,6 +177,9 @@
         event.preventDefault();
         app.cardModal.open(currentCard, { showShrineInfo: true });
       }
+    });
+    encyclopediaLink.addEventListener("click", () => {
+      if (currentCard) app.encyclopedia.showDetail(currentCard.number);
     });
 
     refresh();

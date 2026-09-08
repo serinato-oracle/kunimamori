@@ -17,24 +17,26 @@
     <link rel="apple-touch-icon" sizes="167x167" href="images/icons/app-icon-167.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="images/icons/app-icon-180.png" />
     <link rel="preload" as="image" href="images/icons/app-icon-192.png" />
-    <link rel="stylesheet" href="style.css?v=20260908-9" />
+    <link rel="stylesheet" href="style.css?v=20260908-10" />
     <!-- 読み込み順: データ → SPECIAL演出 → 各機能 → 起動 -->
     <script src="js/card-data.js?v=20260908-2" defer></script>
     <script src="js/translations-en.js?v=20260908-7" defer></script>
+    <script src="js/encyclopedia-data.js?v=20260908-1" defer></script>
     <script src="js/i18n.js?v=20260903-6" defer></script>
     <script src="js/analytics.js?v=20260903-3" defer></script>
     <script src="js/special-effects.js" defer></script>
     <script src="js/shuffle-effects.js" defer></script>
     <script src="js/card-modal.js?v=20260908-2" defer></script>
     <script src="js/three-card-shuffle.js?v=20260903-15" defer></script>
-    <script src="js/navigation.js?v=20260903-16" defer></script>
+    <script src="js/encyclopedia.js?v=20260908-1" defer></script>
+    <script src="js/navigation.js?v=20260908-1" defer></script>
     <script src="js/one-card.js?v=20260903-18" defer></script>
     <script src="js/three-card-reading-engine.js?v=20260903-1" defer></script>
     <script src="js/three-card.js?v=20260903-19" defer></script>
-    <script src="js/daily-oracle.js?v=20260908-19" defer></script>
+    <script src="js/daily-oracle.js?v=20260908-20" defer></script>
     <script src="js/history.js?v=20260908-2" defer></script>
     <script src="js/image-protection.js" defer></script>
-    <script src="js/app.js?v=20260831-10" defer></script>
+    <script src="js/app.js?v=20260908-1" defer></script>
     <script src="js/launch-screen.js?v=20260831-16" defer></script>
     <script src="js/pwa.js?v=20260903-1" defer></script>
   </head>
@@ -85,7 +87,10 @@
               <span class="draw-option__mark" aria-hidden="true"></span>
             </button>
           </div>
-          <button class="history-menu-button" id="choose-history" type="button">これまでの神託を見る</button>
+          <div class="secondary-menu-actions">
+            <button class="history-menu-button" id="choose-encyclopedia" type="button" data-i18n-ignore="true">神仏図鑑</button>
+            <button class="history-menu-button" id="choose-history" type="button">これまでの神託を見る</button>
+          </div>
         </div>
       </section>
 
@@ -276,6 +281,8 @@
               <ul id="daily-shrine-list"></ul>
               <div class="shrine-info__notes" id="daily-shrine-notes"></div>
             </section>
+            <p class="encyclopedia-unlock-notice" id="daily-encyclopedia-notice" data-i18n-ignore="true" hidden></p>
+            <button class="return-button daily-encyclopedia-link" id="daily-encyclopedia-link" type="button" data-i18n-ignore="true" hidden>神仏図鑑で詳しく見る</button>
             <button class="draw-button" id="draw-daily-button" type="button">
               <span class="button-flare" aria-hidden="true"></span>
               <span id="draw-daily-label">今日の神託を受け取る</span>
@@ -284,6 +291,21 @@
             <button class="return-button" id="daily-return" type="button">ホームへ戻る</button>
           </div>
         </div>
+      </section>
+
+      <section class="divine-encyclopedia view" id="divine-encyclopedia" aria-labelledby="encyclopedia-title" hidden>
+        <header class="encyclopedia-header">
+          <p class="eyebrow"><span></span> DIVINE ENCYCLOPEDIA <span></span></p>
+          <h2 id="encyclopedia-title" data-i18n-ignore="true">神仏図鑑</h2>
+          <p id="encyclopedia-count" data-i18n-ignore="true">神仏とのご縁　0 / 48</p>
+        </header>
+        <div class="encyclopedia-grid" id="encyclopedia-grid"></div>
+        <button class="return-button" id="encyclopedia-return" type="button" data-i18n-ignore="true">ホームへ戻る</button>
+      </section>
+
+      <section class="encyclopedia-detail view" id="encyclopedia-detail" aria-labelledby="encyclopedia-detail-title" hidden>
+        <div id="encyclopedia-detail-content"></div>
+        <button class="return-button" id="encyclopedia-detail-return" type="button" data-i18n-ignore="true">神仏図鑑へ戻る</button>
       </section>
 
       <section class="oracle-history view" id="oracle-history" aria-labelledby="history-title" hidden>

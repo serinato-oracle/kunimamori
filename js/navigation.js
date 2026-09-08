@@ -9,6 +9,8 @@
       threeCardShuffle: document.querySelector("#three-card-shuffle"),
       threeCard: document.querySelector("#three-card-reading"),
       daily: document.querySelector("#daily-oracle"),
+      encyclopedia: document.querySelector("#divine-encyclopedia"),
+      encyclopediaDetail: document.querySelector("#encyclopedia-detail"),
       history: document.querySelector("#oracle-history"),
     };
     let transitionTimer = 0;
@@ -27,7 +29,7 @@
         section.hidden = section !== view;
       });
       document.body.classList.toggle("is-three-card-view", view === views.threeCard || view === views.threeCardShuffle);
-      document.body.classList.toggle("is-long-view", view === views.daily || view === views.history);
+      document.body.classList.toggle("is-long-view", view === views.daily || view === views.history || view === views.encyclopedia || view === views.encyclopediaDetail);
       document.body.classList.toggle("is-home-view", view === views.selection);
       document.querySelector("#global-home").hidden = view === views.selection;
       playViewTransition(view);
@@ -59,11 +61,20 @@
       if (app.history) app.history.render();
       showView(views.history);
     });
+    document.querySelector("#choose-encyclopedia").addEventListener("click", () => {
+      app.encyclopedia.renderList();
+      showView(views.encyclopedia);
+    });
     document.querySelector("#one-card-return").addEventListener("click", () => showView(views.selection));
     document.querySelector("#return-to-selection").addEventListener("click", () => showView(views.selection));
     document.querySelector("#shuffle-return").addEventListener("click", () => showView(views.selection));
     document.querySelector("#daily-return").addEventListener("click", () => showView(views.selection));
     document.querySelector("#history-return").addEventListener("click", () => showView(views.selection));
+    document.querySelector("#encyclopedia-return").addEventListener("click", () => showView(views.selection));
+    document.querySelector("#encyclopedia-detail-return").addEventListener("click", () => {
+      app.encyclopedia.renderList();
+      showView(views.encyclopedia);
+    });
     document.querySelector("#global-home").addEventListener("click", () => showView(views.selection));
 
     app.navigation = { showView, views };
